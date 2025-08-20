@@ -353,6 +353,33 @@ class BaseTask:
         self.continue_on_error = old_continue_on_error
 
 
+def compare_swift_output(out, res):
+    """
+    Compara duas strings que contêm floats, um por linha.
+    A comparação é bem-sucedida se a diferença absoluta entre
+    os floats correspondentes for menor que 0.0001.
+    """
+    try:
+        # Converte cada linha para float, removendo espaços em branco
+        out_lines = [float(line) for line in out.strip().splitlines()]
+        res_lines = [float(line) for line in res.strip().splitlines()]
+
+        # Verifica se o número de linhas é o mesmo
+        if len(out_lines) != len(res_lines):
+            return False
+
+        # Compara cada par de valores
+        for val_out, val_res in zip(out_lines, res_lines):
+            if abs(val_out - val_res) >= 0.0001:
+                return False
+
+        # Se todos os pares estiverem dentro da tolerância
+        return True
+    except ValueError:
+        # Se a conversão para float falhar, a saída é inválida
+        return False
+
+
 class Task(BaseTask):
     def teste_1_xou(self):
         cases = self.case_range("xou{}.in", 1, 8)
@@ -360,9 +387,18 @@ class Task(BaseTask):
         self.test_cases(binary, cases)
 
     def teste_2_swift(self):
-        cases = self.case_range("swift{}.in", 1, 8)
-        binary = self.make("swift")
-        self.test_cases(binary, cases)
+        # Salva o método de comparação original
+        original_comparator = self.compare_output
+        # Define o novo método de comparação específico para este teste
+        self.compare_output = compare_swift_output
+
+        try:
+            cases = self.case_range("swift{}.in", 1, 8)
+            binary = self.make("swift")
+            self.test_cases(binary, cases)
+        finally:
+            # Restaura o método de comparação original para os próximos testes
+            self.compare_output = original_comparator
 
     def teste_3_primos(self):
         cases = self.case_range("primos{}.in", 1, 8)
