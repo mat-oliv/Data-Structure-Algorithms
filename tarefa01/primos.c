@@ -13,9 +13,10 @@ int main(){
   int index_num = 0;
   while (1) {
     if (isPalindrome(num)){
-    if (isPrime(num)){
+      if (isPrime(num)){
       index_num += 1;
       printf("%d\n", num);
+      }
     }
 
 
@@ -23,7 +24,7 @@ int main(){
       break;
     }
     num += 1;
-  }
+  
   }
   return 0;
 }
