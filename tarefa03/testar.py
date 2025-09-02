@@ -354,7 +354,7 @@ class BaseTask:
 
 
 class Task(BaseTask):
-    def teste_1_goods(self):
+    def teste_1_bobbie(self):
         cases = self.case_range("bobbie{}.in", 1, 4)
         binary = self.make("bobbie")
         self.test_cases(binary, cases)
