@@ -50,6 +50,7 @@ int main(){
       sum_value = 0;
       for(int h = i - delta_x; h < i + delta_x + 1; h++){
         for (int k = j - delta_y; k < j + delta_y + 1; k++){ 
+          if (h < 0 || h >= new_image->n || k < 0 || k >= new_image->m) continue;   
           sum_value += kern_matrix[h - (i - delta_x)][k - (j - delta_y)] * new_image->matrix[h][k];
 
         }
@@ -68,6 +69,7 @@ int main(){
   image_p final_image;
   final_image = create_image(l2, c2);
 
+  free(final_image->matrix);
   final_image->matrix = final_matrix;
 
 
