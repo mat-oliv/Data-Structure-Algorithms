@@ -80,6 +80,7 @@ int main(){
   for(int i = 0; i < l2; i++)
     free(final_matrix[i]);
   free(final_matrix);
+  free_image(new_image);
   return 0;
 }
 
