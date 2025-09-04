@@ -79,10 +79,9 @@ int main(){
     free(kern_matrix[i]);
   free(kern_matrix);
 
-  for(int i = 0; i < l2; i++)
-    free(final_matrix[i]);
-  free(final_matrix);
   free_image(new_image);
+
+  free_image(final_image);
   return 0;
 }
 
