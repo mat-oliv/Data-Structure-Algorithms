@@ -24,7 +24,7 @@ int main(){
   int **kern_matrix;
   kern_matrix = init_matrix(l, l);
 
-  int **final_matrix = init_matrix(l2+1, c2+1);
+  int **final_matrix = init_matrix(l2, c2);
 
   int delta_x = (l - 1) / 2;
   int delta_y = (l - 1) / 2;
@@ -35,24 +35,32 @@ int main(){
       scanf("%d", &kern_matrix[i][j]);
     }
   } 
-
   
-  int sum_value;
-  for( int i = delta_x; i <= l2; i ++){
-    for (int j = delta_y; j <= c2; j ++){
+  for (int i = 0; i < l2; i++) {
+    for (int j = 0; j < c2; j++){
+      final_matrix[i][j] = 1;
+    }
+  }
+
+
+  long int sum_value;
+  for( int i = delta_x; i < new_image->n - delta_x; i ++){
+    for (int j = delta_y; j < new_image->m - delta_y; j ++){
 
       sum_value = 0;
       for(int h = i - delta_x; h < i + delta_x + 1; h++){
-        for (int k = j - delta_y; k < j + delta_y + 1; k++){
-        
+        for (int k = j - delta_y; k < j + delta_y + 1; k++){ 
           sum_value += kern_matrix[h - (i - delta_x)][k - (j - delta_y)] * new_image->matrix[h][k];
 
         }
       }
 
-      final_matrix[i - delta_x][j - delta_y] = (sum_value) / q;
-      
-      
+      int final_value = sum_value / q;
+     
+      if (final_value > 255) final_value = 255;
+      else if (final_value < 0) final_value = 0;
+
+      final_matrix[i - delta_x][j - delta_y] = final_value;
 
     }
   }
@@ -63,12 +71,13 @@ int main(){
   final_image->matrix = final_matrix;
 
 
+  print_image(final_image);
+
   for (int i =0; i < l; i++)
     free(kern_matrix[i]);
   free(kern_matrix);
 
-  print_image(final_image);
-  for(int i = 0; i < l; i++)
+  for(int i = 0; i < l2; i++)
     free(final_matrix[i]);
   free(final_matrix);
   return 0;

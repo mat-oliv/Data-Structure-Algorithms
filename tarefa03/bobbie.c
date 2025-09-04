@@ -5,14 +5,12 @@
 struct goals {
     int *v;
     int qtd;
-    char name[8];
+    char name[20];
 };
 
 void liberar(struct goals *p) {
     free(p);
-    if (p != NULL) {
-        free(p);
-    }
+
 }
 
 int sum(struct goals *p) {
@@ -38,19 +36,24 @@ int main() {
 
     // Player 1:
     scanf("%s", name);
-    strcpy(players[0]->name, name);
+    players[1] = malloc(sizeof(struct goals));
+    strcpy(players[1]->name, name);
+    players[0]-> qtd = 3;
     players[1]->qtd = 3;
     // Dados do player 1 são iguais aos dados do player 0
     players[1]->v = players[0]->v;
 
-    if (players[0]->qtd > 4 || players[1]->qtd > 4) {
+    if (players[0]->qtd > 3 || players[1]->qtd > 3) {
         printf("Melhor conferir esse Morango do Amor!\n");
     }
 
     printf("Placar inicial: %d vs %d\n", sum(players[0]), sum(players[1]));
 
+    free(players[0]->v); 
     liberar(players[0]);
     liberar(players[1]);
+
+    
 
     return 0;
 }
