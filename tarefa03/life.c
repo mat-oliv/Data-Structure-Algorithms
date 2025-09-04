@@ -20,11 +20,12 @@ int main(){
     char *line_text = malloc(2 * c * sizeof(char));
     scanf(" %s", line_text);
 
-    free(line_text);
-
     for (int j = 0; j < c; j++){
         matrix[i][j] = line_text[j];
     }
+
+    free(line_text);
+
   }
 
 
