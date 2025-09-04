@@ -69,6 +69,8 @@ int main(){
   image_p final_image;
   final_image = create_image(l2, c2);
 
+  for (int i = 0; i < l2; i++)
+    free(final_image->matrix[i]);
   free(final_image->matrix);
   final_image->matrix = final_matrix;
 
