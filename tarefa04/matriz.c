@@ -108,7 +108,7 @@ matrix* add_column(matrix* m, int* column){
 matrix* remove_column(matrix* m, int index){
 
   for (int i = 0; i < m->n_size; i++){
-    for (int j = index; j < m->m_size; j++)
+    for (int j = index; j < m->m_size - 1; j++)
     { 
       m->m[i][j] = m->m[i][j + 1];
     }
@@ -168,6 +168,9 @@ matrix *init_matrix(int n_dim, int m_dim){
 
   m->m = malloc(n_dim * sizeof(int*));
 
+  m->m_size = 0;
+  m->n_size = 0;
+
   for (int i = 0; i < n_dim; i++){
       m->m[i] = malloc(m_dim * sizeof(int));
     
@@ -223,7 +226,7 @@ matrix* realloc_n(matrix *m, double factor){
   printf("Memória realocada: %d x %d -> %d x %d\n", (copy_matrix->n_dim), (copy_matrix->m_dim), m->n_dim, (m->m_dim));
 
   //  liberar memória aqui
-  free_matrix(copy_matrix);
+  // free_matrix(copy_matrix);
 
 
   return m;
