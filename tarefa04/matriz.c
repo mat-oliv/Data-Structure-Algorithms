@@ -11,14 +11,14 @@ typedef struct {
 
 
 matrix *init_matrix(int n_dim, int m_dim); // Aloca a Matriz
-matrix *add_line(matrix *m, int *line); // Adiciona uma nova linha
+void *add_line(matrix *m, int *line); // Adiciona uma nova linha
 void free_matrix(matrix* m); // Libera espaço da Matriz
-matrix* realloc_n(matrix *m, double factor); // Realloc da primeira dimensao da matriz
-matrix* realloc_m(matrix *m, double factor); // Realloc da Segunda dimensao da matriz
+void* realloc_n(matrix *m, double factor); // Realloc da primeira dimensao da matriz
+void* realloc_m(matrix *m, double factor); // Realloc da Segunda dimensao da matriz
 void print_matrix(matrix * m);
-matrix* remove_line(matrix * m, int index); // REmove uma linha
-matrix* add_column(matrix* m, int* column); // ADiciona uma coluna
-matrix* remove_column(matrix *m, int index); // remove uma coluna
+void* remove_line(matrix * m, int index); // REmove uma linha
+void* add_column(matrix* m, int* column); // ADiciona uma coluna
+void* remove_column(matrix *m, int index); // remove uma coluna
 void free_matri(int **matri, int n_dim);
 
 
@@ -36,7 +36,7 @@ int main(){
     for (int j = 0; j < m_dim; j++){
       scanf(" %d", &vec[j]);
     }
-    m = add_line(m, vec);
+    add_line(m, vec);
     free(vec);
     }
 
@@ -51,7 +51,7 @@ int main(){
       for (int i =0; i < m->m_size; i++){
         scanf("%d", &vect[i]);
       }
-      m = add_line(m, vect);
+      add_line(m, vect);
       free(vect);
     } else if (!strcmp(text, "V")){
       print_matrix(m);
@@ -61,29 +61,31 @@ int main(){
         scanf(" %d", &vec[i]);
       }
 
-      m = add_column(m, vec);
+      add_column(m, vec);
 
       free(vec);
     } else if(!strcmp(text, "RP")){
         int line_index;
         scanf(" %d", &line_index);
 
-        m = remove_line(m, line_index);
+        remove_line(m, line_index);
     } else if(!strcmp(text, "RH")){
         int column_index;
         scanf(" %d", &column_index);
 
-        m = remove_column(m, column_index);
+        remove_column(m, column_index);
     }
 
     scanf(" %s", text);
   }
 
+  free_matrix(m);
+
 
   return 0;
 }
 
-matrix* add_column(matrix* m, int* column){
+void* add_column(matrix* m, int* column){
   
   if (m->m_size == m->m_dim){
     printf("Tamanho da matriz: %d x %d\n",(int)m->n_size, (int)(m->m_size + 1));
@@ -106,7 +108,7 @@ matrix* add_column(matrix* m, int* column){
 
 }
 
-matrix* remove_column(matrix* m, int index){
+void* remove_column(matrix* m, int index){
 
   for (int i = 0; i < m->n_size; i++){
     for (int j = index; j < m->m_size - 1; j++)
@@ -119,13 +121,13 @@ matrix* remove_column(matrix* m, int index){
   if (m->m_size <= m->m_dim / 4){
     printf("Tamanho da matriz: %d x %d\n", (int)m->n_size, (int)(m->m_size));
     if (m->m_dim > 1)
-      m = realloc_m(m, 0.5);
+      realloc_m(m, 0.5);
   }
 
   return m;
 }
 
-matrix* realloc_m(matrix *m, double factor){
+void* realloc_m(matrix *m, double factor){
   int **matri = m->m;
   m->m = malloc(m->n_dim * sizeof(int*));
   int old_m_dim = m->m_dim;
@@ -149,7 +151,7 @@ matrix* realloc_m(matrix *m, double factor){
   return m;
 }
 
-matrix* remove_line(matrix *m, int index){
+void* remove_line(matrix *m, int index){
   // TODO dar free no cara a ser removido (index)
   for (int i = index; i < m->n_size -1; i++){
     for (int j = 0; j < m->m_size; j++){
@@ -161,7 +163,7 @@ matrix* remove_line(matrix *m, int index){
 
   if (m->n_size <= m->n_dim/4){
     printf("Tamanho da matriz: %d x %d\n",(int) m->n_size, (int)(m->m_size));
-    m = realloc_n(m, 0.5);
+    realloc_n(m, 0.5);
   } 
 
   return m;
@@ -188,11 +190,11 @@ matrix *init_matrix(int n_dim, int m_dim){
 
 }
 
-matrix* add_line(matrix *m, int *line){
+void* add_line(matrix *m, int *line){
     
     if (m->n_size == m->n_dim){
       printf("Tamanho da matriz: %d x %d\n", (int)(m->n_size + 1),(int) (m->m_size));
-      m = realloc_n(m, 2);
+      realloc_n(m, 2);
     }
 
     for (int i = 0; i < m->m_size; i++){
@@ -217,7 +219,7 @@ void free_matrix(matrix *m){
   free(m);
 }
 
-matrix* realloc_n(matrix *m, double factor){
+void* realloc_n(matrix *m, double factor){
   int **matri = m->m;
   int old_n_dim = m->n_dim;
   m->n_dim *= factor;
@@ -237,7 +239,7 @@ matrix* realloc_n(matrix *m, double factor){
   printf("Memória realocada: %d x %d -> %d x %d\n", (int)(old_n_dim),(int) (m->m_dim), (int)m->n_dim, (int)(m->m_dim));
 
   //  liberar memória aqui
-      free_matri(matri, (int)(old_n_dim));
+  free_matri(matri, (int)(old_n_dim));
 
 
   return m;
