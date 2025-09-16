@@ -19,6 +19,7 @@ void print_matrix(matrix * m);
 matrix* remove_line(matrix * m, int index); // REmove uma linha
 matrix* add_column(matrix* m, int* column); // ADiciona uma coluna
 matrix* remove_column(matrix *m, int index); // remove uma coluna
+void free_matri(int **matri, int n_dim);
 
 
 
@@ -85,7 +86,7 @@ int main(){
 matrix* add_column(matrix* m, int* column){
   
   if (m->m_size == m->m_dim){
-    printf("Tamanho da matriz: %d x %d\n", m->n_size, (m->m_size + 1));
+    printf("Tamanho da matriz: %d x %d\n",(int)m->n_size, (int)(m->m_size + 1));
     m= realloc_m(m, 2);
   }
 
@@ -116,7 +117,7 @@ matrix* remove_column(matrix* m, int index){
   m->m_size -= 1;
 
   if (m->m_size <= m->m_dim / 4){
-    printf("Tamanho da matriz: %d x %d\n", m->n_size, (m->m_size));
+    printf("Tamanho da matriz: %d x %d\n", (int)m->n_size, (int)(m->m_size));
     if (m->m_dim > 1)
       m = realloc_m(m, 0.5);
   }
@@ -125,21 +126,25 @@ matrix* remove_column(matrix* m, int index){
 }
 
 matrix* realloc_m(matrix *m, double factor){
-  matrix* copy_m = m;
-  m = init_matrix(m->n_dim, m->m_dim * factor);
-  m->m_size = copy_m->m_size;
-  m->n_size = copy_m->n_size;
+  int **matri = m->m;
+  m->m = malloc(m->n_dim * sizeof(int*));
+  int old_m_dim = m->m_dim;
+  m->m_dim *= factor;
 
+  for(int i = 0; i < m->n_dim; i++){
+    m->m[i] = malloc(m->m_dim * sizeof(int));
+  }
   for (int i = 0; i < m->n_size; i++){
     for (int j = 0; j < m->m_size; j++){
-      m->m[i][j] = copy_m->m[i][j];
+      m->m[i][j] = matri[i][j];
     }
   }
 
-  printf("Memória realocada: %d x %d -> %d x %d\n", (copy_m->n_dim), (copy_m->m_dim), m->n_dim, (m->m_dim));
+  printf("Memória realocada: %d x %d -> %d x %d\n",(int) (m->n_dim), (int)(old_m_dim), (int)m->n_dim, (int)(m->m_dim));
 
   //  liberar memória aqui
-  free_matrix(copy_m);
+      free_matri(matri, m->n_dim);
+
 
   return m;
 }
@@ -147,16 +152,16 @@ matrix* realloc_m(matrix *m, double factor){
 matrix* remove_line(matrix *m, int index){
   // TODO dar free no cara a ser removido (index)
   for (int i = index; i < m->n_size -1; i++){
-    m->m[i] = m->m[i + 1];
+    for (int j = 0; j < m->m_size; j++){
+    m->m[i][j] = m->m[i + 1][j];
+    }
   }
-  m->m[m->n_size-1] = malloc(m->m_size * sizeof(int));
 
   m->n_size -= 1;
 
   if (m->n_size <= m->n_dim/4){
-    printf("Tamanho da matriz: %d x %d\n", m->n_size, (m->m_size));
-    if (m->n_dim > 1)
-      m = realloc_n(m, 0.5);
+    printf("Tamanho da matriz: %d x %d\n",(int) m->n_size, (int)(m->m_size));
+    m = realloc_n(m, 0.5);
   } 
 
   return m;
@@ -186,7 +191,7 @@ matrix *init_matrix(int n_dim, int m_dim){
 matrix* add_line(matrix *m, int *line){
     
     if (m->n_size == m->n_dim){
-      printf("Tamanho da matriz: %d x %d\n", (m->n_size + 1), (m->m_size));
+      printf("Tamanho da matriz: %d x %d\n", (int)(m->n_size + 1),(int) (m->m_size));
       m = realloc_n(m, 2);
     }
 
@@ -200,42 +205,47 @@ matrix* add_line(matrix *m, int *line){
     return m;
 }
 
+void free_matri(int** matri, int n_dim){
+  for(int i = 0; i < n_dim; i++){
+    free(matri[i]);
+ }
+ free(matri);
+}
 
 void free_matrix(matrix *m){
-  for(int i = 0; i < m->n_dim; i++){
-     free(m->m[i]);
-  }
-
-  free(m->m);
-
+  free_matri(m->m, m->n_dim);
   free(m);
 }
 
 matrix* realloc_n(matrix *m, double factor){
-  matrix* copy_matrix = m;
-  m = init_matrix((int)(copy_matrix->n_dim * factor), copy_matrix->m_dim);
+  int **matri = m->m;
+  int old_n_dim = m->n_dim;
+  m->n_dim *= factor;
+  m->m = malloc(m->n_dim * sizeof(int*));
+ 
+
+  for(int i = 0; i < m->n_dim; i++){
+    m->m[i] = malloc(m->m_dim * sizeof(int));
+  }
   
-  m->n_size = copy_matrix->n_size;
-  m->m_size = copy_matrix->m_size;
   for (int i = 0; i < m->n_size; i++){
     for (int j = 0; j < m->m_size; j++){
-      m->m[i][j] = copy_matrix->m[i][j];
+      m->m[i][j] = matri[i][j];
     }
   }
 
-  printf("Memória realocada: %d x %d -> %d x %d\n", (copy_matrix->n_dim), (copy_matrix->m_dim), m->n_dim, (m->m_dim));
+  printf("Memória realocada: %d x %d -> %d x %d\n", (int)(old_n_dim),(int) (m->m_dim), (int)m->n_dim, (int)(m->m_dim));
 
   //  liberar memória aqui
-  // free_matrix(copy_matrix);
+      free_matri(matri, (int)(old_n_dim));
 
 
   return m;
 }
 
-
 void print_matrix(matrix * m){
-  printf("MATRIZ ATUAL:\n");
-  for (int i = 0; i < m->n_size; i ++){
+printf("MATRIZ ATUAL:\n");
+for (int i = 0; i < m->n_size; i ++){
     for (int j = 0; j < m->m_size; j ++){
       if  (j != m->m_size - 1)
         printf("%d ", m->m[i][j]);
