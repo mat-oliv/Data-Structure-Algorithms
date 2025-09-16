@@ -78,7 +78,7 @@ int main(){
 
     scanf(" %s", text);
   }
-
+  free(text);
   free_matrix(m);
 
 
