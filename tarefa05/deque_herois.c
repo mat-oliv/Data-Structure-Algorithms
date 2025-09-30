@@ -376,9 +376,10 @@ int main(){
   scanf(" %s", text);
 }
 
+ 
+  clear_list(d);
   free(text);
   free(d);
-  clear_list(d);
 
 
   return 0;
