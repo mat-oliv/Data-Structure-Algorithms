@@ -116,7 +116,6 @@ void reverse_caos(deque *d, int num){
     for(int i = 0; i < num; i++){
       printf(" %s", print_node->name);
       print_node = print_node->next;
-      
     }
     
     printf("\n");
@@ -193,6 +192,7 @@ void addEnd(node *end, char *name, deque *d){
     return;
   }
 
+
   new->next = NULL;
   new->prev = end;
 
@@ -237,12 +237,10 @@ void print_list(node* nod){
 
 void set_position(deque *d, char* name, int pos){
 
-   node *new = init_node(name);
 
    node *start = d->start;
    if (start == NULL){
-    addBeginning(d, new->name);
-    free(new);
+    addBeginning(d, name);
     return;
    }
 
@@ -251,10 +249,10 @@ void set_position(deque *d, char* name, int pos){
       start = start->next;
     else{
       addEnd(d->end, name, d);
-      free(new);
       return;
     }
    }
+   node *new = init_node(name);
 
 
    if (start->prev != NULL){
@@ -262,11 +260,9 @@ void set_position(deque *d, char* name, int pos){
     new->prev = start->prev;
   } else {
     d->start = new;
-  }
-  
+  } 
    new->next = start;
    start->prev = new;
-
 }
 
 node * remove_position(deque *d, int pos){
@@ -278,16 +274,19 @@ node * remove_position(deque *d, int pos){
   }
 
   if (pos == 0){
-   removeBeginning(d);
+   // node *old_start = d->start;
+    removeBeginning(d);
+    //free_node(old_start);
   } else if (start->next == NULL){
+    //node * old_end = d->end;
     removeEnd(start, d);
+   // free_node(old_end);
     return start;
   }else {
   start->prev->next = start->next;
   start->next->prev = start->prev;
   }
 
- 
   return start;
 }
 
@@ -300,12 +299,19 @@ void attack(deque *d){
 }
 
 void clear_list(deque *d){
-  node *start = d->start;
+  node *nod = d->start;
 
-  for(; start != NULL; start = start->next){
-    if (start != NULL)
-      free_node(start);
-  }
+  while (1) {
+    if (nod == NULL){
+      return;
+    }
+    if(nod->next == NULL){
+      free_node(nod);
+      break;
+    }
+    free_node(nod);
+    nod = nod->next;
+   }
 
 }
 
