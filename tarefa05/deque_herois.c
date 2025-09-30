@@ -24,7 +24,6 @@ node* search(deque *d, int pos){
   node *start = d->start;
   for(int i = 0; i < pos; i++) start = start->next;
 
-
   return start;
   
 }
@@ -274,13 +273,9 @@ node * remove_position(deque *d, int pos){
   }
 
   if (pos == 0){
-   // node *old_start = d->start;
     removeBeginning(d);
-    //free_node(old_start);
   } else if (start->next == NULL){
-    //node * old_end = d->end;
     removeEnd(start, d);
-   // free_node(old_end);
     return start;
   }else {
   start->prev->next = start->next;
@@ -300,6 +295,7 @@ void attack(deque *d){
 
 void clear_list(deque *d){
   node *nod = d->start;
+  node *next_nod;
 
   while (1) {
     if (nod == NULL){
@@ -309,8 +305,10 @@ void clear_list(deque *d){
       free_node(nod);
       break;
     }
+    
+    next_nod = nod->next;
     free_node(nod);
-    nod = nod->next;
+    nod = next_nod;
    }
 
 }
@@ -378,6 +376,7 @@ int main(){
   scanf(" %s", text);
 }
 
+  clear_list(d);
 
 
   return 0;
