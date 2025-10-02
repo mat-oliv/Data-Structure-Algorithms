@@ -1,0 +1,10 @@
+DNA inteiro: TTGTGCCTACA
+DNA inteiro: TTGTGCTACA
+DNA inteiro: TTTGCTACA
+DNA inteiro: TTTGCTGACA
+DNA inteiro: TATTGCTGACA
+DNA inteiro: TATGCTGACA
+DNA inteiro: TATGGCTGACA
+DNA inteiro: TATGGCTTGACA
+DNA inteiro: TATGGTTGACA
+Contagem final: A:3 T:4 C:1 G:3
