@@ -14,6 +14,20 @@ struct node {
 
 void free_nodes(node* root);
 void printall(node* root, char *str);
+
+node * init_node(node * parent, int l){
+  node *new_node = malloc(sizeof(node));
+  new_node->parent = parent;
+  new_node->left = NULL;
+  new_node->right = NULL;
+  new_node->value = 0;
+  new_node->text = NULL;
+  new_node-> height = 0;
+  new_node->l = l;
+
+  return new_node;
+}
+
 int max(int a, int b){
   if (a > b)
     return a;
@@ -25,16 +39,12 @@ void string_to_tree(node *root, char * string, int t, int l){
     char * left_string;
     char * right_string;
     int a, b;
-    if ( (int) (t / 2) < t / 2.0){
-       a = t / 2;
-       b = a + 1;
-    } else {
-      a = t / 2;
-      b = t / 2;
-    }
+    int val = t % 2;
+    a = t / 2;
+    b = a + val;
+
     left_string = malloc((a + 1) * sizeof(char));
     right_string = malloc((b + 1) * sizeof(char));
-    // PODE ESTAR FALTANDO \0
 
     left_string[a] = '\0';
     right_string[b] = '\0';
@@ -44,12 +54,9 @@ void string_to_tree(node *root, char * string, int t, int l){
     for(int i = 0; i < b; i++){
       right_string[i] = string[i + a];
     }
-    node* node_left = malloc(sizeof(node));
-    node* node_right = malloc(sizeof(node));
-    node_left->parent = root;
-    node_right->parent = root;
-    node_left->l = l;
-    node_right->l = l;
+    node* node_left = init_node(root, root->l);
+    node* node_right = init_node(root, root->l);
+
     root->left = node_left;
     root->right = node_right;
     free(string);
@@ -110,7 +117,7 @@ void insert(node *root, int index, char letter){
     char *left_string, *right_string;
     left_string = malloc((a + 1) * sizeof(char));
     right_string = malloc((b + 1) * sizeof(char));
-    
+
     // PODE ESTAR FALTANDO \0
     for(int z = 0; z < a; z++){
       left_string[z] = root->text[z];
@@ -124,14 +131,8 @@ void insert(node *root, int index, char letter){
     free(root->text); 
     node *left_node, *right_node;
 
-    left_node = malloc(sizeof(node));
-    right_node = malloc(sizeof(node));
-
-    left_node->parent = root;
-    right_node->parent = root;
-
-    left_node->l = root->l;
-    right_node->l = root->l;
+    left_node = init_node(root, root->l);
+    right_node = init_node(root, root->l);
 
     left_node->value = a;
     left_node->text = left_string;
@@ -297,14 +298,11 @@ int main(){
   sequence = malloc((t + 1) * sizeof(char));
   scanf(" %s", sequence);
 
-  node *root = malloc(sizeof(node));
-  root->parent = NULL;
-  root->l = l;
+  node *root = init_node(NULL, l);
 
   string_to_tree(root, sequence, t, l);
   loop_sum(root);
-
-
+  get_height(root);
 
   int i = 0;
   for(; i < p; i++){
@@ -325,7 +323,7 @@ int main(){
       loop_sum(root);
       get_height(root);
       t -= 1;
-      checkNodes(root, t);
+     checkNodes(root, t);
     } else if(strcmp(text, "PRINTALL") == 0){
       char *full_text = malloc((t + 1) * sizeof(char));
       full_text[t] = '\0';
