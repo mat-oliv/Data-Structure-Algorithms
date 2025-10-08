@@ -99,15 +99,18 @@ void insert(node *root, int index, char letter){
     new_text[i] = root->text[i - 1];
   }
   free(root->text);
+
   root->text = new_text;
   root->value += 1;
   if (root->value > root->l){
     int val = root->value % 2;
     int a = root->value / 2;
     int b = a + val;
+
     char *left_string, *right_string;
     left_string = malloc((a + 1) * sizeof(char));
     right_string = malloc((b + 1) * sizeof(char));
+    
     // PODE ESTAR FALTANDO \0
     for(int z = 0; z < a; z++){
       left_string[z] = root->text[z];
@@ -118,18 +121,24 @@ void insert(node *root, int index, char letter){
 
     left_string[a] = '\0';
     right_string[b] = '\0';
-  //  free(root->text); 
+    free(root->text); 
     node *left_node, *right_node;
+
     left_node = malloc(sizeof(node));
     right_node = malloc(sizeof(node));
+
     left_node->parent = root;
     right_node->parent = root;
+
     left_node->l = root->l;
     right_node->l = root->l;
+
     left_node->value = a;
     left_node->text = left_string;
+
     right_node->value = b;
     right_node->text = right_string;
+
     root->right = right_node;
     root->left = left_node;
   }
@@ -149,59 +158,43 @@ void removing(node *root, int index, int t){
   new_text[root->value] = '\0'; 
   if(root->value == 0){
     node *parent = root->parent;
-    if (parent->right == root){
-      if (parent->left->text == NULL){
-        char *str = malloc((t+1) * sizeof(char));
-        str[t] = '\0';
-        printall(parent->left,str);
-        free_nodes(parent->left->left);
-        free_nodes(parent->left->right);
-        parent->left->text = strdup(str);
-        parent->left->value = strlen(str);
-        free(str);
-      }
-      parent->text = strdup(parent->left->text);
-      parent->value = parent->left->value;
-      free(root->text);
-      free(root);
-      free(parent->left->text);
-      free(parent->left);
-     
-    } else {
-      if (parent->right->text == NULL){
-        char *str = malloc((t+1) * sizeof(char));
-        str[t] = '\0';
-        printall(parent->right,str);
-        free_nodes(parent->right->left);
-        free_nodes(parent->right->right);
-        parent->right->text = strdup(str);
-        parent->right->value = strlen(str);
-        free(str);
-      }
-      parent->text = strdup(parent->right->text);
-      parent->value = parent->right->value;
+    node *sibling;
+    if (parent->right == root)
+      sibling = parent->left;
+    else
+      sibling = parent->right;
 
-     free(root->text);
-     free(root);
-     free(parent->right->text);
-     free(parent->right);
-      
+    if(sibling->text == NULL){
+      char *str = malloc( (t+1) * sizeof(char));
+      printall(sibling, str);
+      free_nodes(sibling->left);
+      free_nodes(sibling->right);
+      int len = strlen(str);
+      str[len] = '\0';
+      sibling->text = str;
+      sibling->value = len;
     }
+
+    parent->text = sibling->text;
+    parent->value = sibling->value;
+    free(root->text);
+    free(root);
+    free(sibling);
+
     parent->left = NULL;
     parent->right = NULL;
 
     if (parent->value > parent->l){
       char *str_save = parent->text;
       parent->text = NULL;
-      string_to_tree(parent, str_save, t, parent->l);
-
+      int tt = strlen(str_save);
+      string_to_tree(parent, str_save, tt, parent->l);
     }
     
     free(new_text);
   } else {
     free(root->text);
-    root->text = strdup(new_text);
-    free(new_text);
+    root->text = new_text;
   }
 }
 
@@ -270,12 +263,11 @@ void free_nodes(node *root){
 
 node *tree_to_string(node * root, int t){
   char* str = malloc((t + 1) * sizeof(char));
-  str[t] = '\0';
+  int tt = strlen(str);
+  str[tt] = '\0';
   printall(root, str);
   free_nodes(root->left);
   free_nodes(root->right);
-  int tt = strlen(str);
-  str[tt] = '\0';
   string_to_tree(root, str, tt, root->l);
   return root;
 }
@@ -329,10 +321,10 @@ int main(){
     } else if(strcmp(text, "REMOVE") == 0){
       int index;
       scanf(" %d", &index);
-      t -= 1;
       search(root, index, -2, t);
       loop_sum(root);
       get_height(root);
+      t -= 1;
       checkNodes(root, t);
     } else if(strcmp(text, "PRINTALL") == 0){
       char *full_text = malloc((t + 1) * sizeof(char));
