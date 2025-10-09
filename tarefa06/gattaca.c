@@ -62,7 +62,7 @@ void string_to_tree(node *root, char * string, int t, int l){
 
     root->left = node_left;
     root->right = node_right;
-  //  free(string);
+    free(string);
     string_to_tree(root->left, left_string, a, l);
     string_to_tree(root->right, right_string, b, l);
   } else {
@@ -108,7 +108,7 @@ void insert(node *root, int index, char letter){
   for(; i < root->value + 1; i++){
     new_text[i] = root->text[i - 1];
   }
- // free(root->text);
+  free(root->text);
 
   root->text = new_text; 
   root->value += 1;
@@ -132,7 +132,7 @@ void insert(node *root, int index, char letter){
 
     left_string[a] = '\0';
     right_string[b] = '\0';
-   // free(root->text); 
+    free(root->text); 
     node *left_node, *right_node;
 
     left_node = init_node(root, root->l);
@@ -182,9 +182,9 @@ void removing(node *root, int index, int t){
 
     parent->text = sibling->text;
     parent->value = sibling->value;
-    //free(root->text);
-   // free(root);
-   // free(sibling);
+    free(root->text);
+    free(root);
+    free(sibling);
 
     parent->left = NULL;
     parent->right = NULL;
@@ -196,9 +196,9 @@ void removing(node *root, int index, int t){
       string_to_tree(parent, str_save, tt, parent->l);
     }
     
-  //  free(new_text);
+    free(new_text);
   } else {
-   // free(root->text);
+    free(root->text);
     root->text = new_text;
   }
 }
@@ -254,12 +254,12 @@ void free_nodes(node *root){
   if (root->left == NULL && root->right == NULL){
     if(root->text != NULL)
       free(root->text);
- //   free(root);
+  free(root);
     return;
 } else{
   free_nodes(root->left);
   free_nodes(root->right);
- // free(root);
+  free(root);
  
 }
 
