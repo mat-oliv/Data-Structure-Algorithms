@@ -43,8 +43,11 @@ void string_to_tree(node *root, char * string, int t, int l){
     a = t / 2;
     b = a + val;
 
-    left_string = malloc((a + 1) * sizeof(char));
-    right_string = malloc((b + 1) * sizeof(char));
+
+    int memory_space_a = (a > l) ? a : l;
+    int memory_space_b = (b > l) ? b : l;
+    left_string = malloc((memory_space_a + 1) * sizeof(char));
+    right_string = malloc((memory_space_b + 1) * sizeof(char));
 
     left_string[a] = '\0';
     right_string[b] = '\0';
@@ -59,7 +62,7 @@ void string_to_tree(node *root, char * string, int t, int l){
 
     root->left = node_left;
     root->right = node_right;
-    free(string);
+  //  free(string);
     string_to_tree(root->left, left_string, a, l);
     string_to_tree(root->right, right_string, b, l);
   } else {
@@ -105,9 +108,9 @@ void insert(node *root, int index, char letter){
   for(; i < root->value + 1; i++){
     new_text[i] = root->text[i - 1];
   }
-  free(root->text);
+ // free(root->text);
 
-  root->text = new_text; // Aqui não ha valor null
+  root->text = new_text; 
   root->value += 1;
 
   if (root->value > root->l){
@@ -116,8 +119,8 @@ void insert(node *root, int index, char letter){
     int b = a + val;
 
     char *left_string, *right_string;
-    left_string = malloc((a + 1) * sizeof(char));
-    right_string = malloc((b + 1) * sizeof(char));
+    left_string = malloc((root->l + 1) * sizeof(char));
+    right_string = malloc((root->l  + 1) * sizeof(char));
 
     // PODE ESTAR FALTANDO \0
     for(int z = 0; z < a; z++){
@@ -129,7 +132,7 @@ void insert(node *root, int index, char letter){
 
     left_string[a] = '\0';
     right_string[b] = '\0';
-    free(root->text); 
+   // free(root->text); 
     node *left_node, *right_node;
 
     left_node = init_node(root, root->l);
@@ -167,6 +170,7 @@ void removing(node *root, int index, int t){
 
     if(sibling->text == NULL){
       char *str = malloc( (t+1) * sizeof(char));
+      str[0] = '\0';
       printall(sibling, str);
       free_nodes(sibling->left);
       free_nodes(sibling->right);
@@ -178,9 +182,9 @@ void removing(node *root, int index, int t){
 
     parent->text = sibling->text;
     parent->value = sibling->value;
-    free(root->text);
-    free(root);
-    free(sibling);
+    //free(root->text);
+   // free(root);
+   // free(sibling);
 
     parent->left = NULL;
     parent->right = NULL;
@@ -192,9 +196,9 @@ void removing(node *root, int index, int t){
       string_to_tree(parent, str_save, tt, parent->l);
     }
     
-    free(new_text);
+  //  free(new_text);
   } else {
-    free(root->text);
+   // free(root->text);
     root->text = new_text;
   }
 }
@@ -250,12 +254,12 @@ void free_nodes(node *root){
   if (root->left == NULL && root->right == NULL){
     if(root->text != NULL)
       free(root->text);
-    free(root);
+ //   free(root);
     return;
 } else{
   free_nodes(root->left);
   free_nodes(root->right);
-  free(root);
+ // free(root);
  
 }
 
