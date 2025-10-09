@@ -117,7 +117,6 @@ void insert(node *root, int index, char letter){
     left_string = malloc((root->l + 1) * sizeof(char));
     right_string = malloc((root->l  + 1) * sizeof(char));
 
-    // PODE ESTAR FALTANDO \0
     for(int z = 0; z < a; z++){
       left_string[z] = root->text[z];
     }
@@ -127,7 +126,8 @@ void insert(node *root, int index, char letter){
 
     left_string[a] = '\0';
     right_string[b] = '\0';
-    free(root->text); 
+    free(root->text);
+    root->text = NULL; 
     node *left_node, *right_node;
 
     left_node = init_node(root, root->l);
@@ -179,8 +179,10 @@ void removing(node *root, int index, int t){
     parent->text = sibling->text;
     parent->value = sibling->value;
     free(root->text);
+    root->text = NULL;
     free(root);
     free(sibling);
+    sibling = NULL;
 
     parent->left = NULL;
     parent->right = NULL;
@@ -195,6 +197,7 @@ void removing(node *root, int index, int t){
     free(new_text);
   } else {
     free(root->text);
+    root->text = NULL;
     root->text = new_text;
   }
 }
@@ -206,6 +209,7 @@ char search(node *root, int index, int x, int t){
       char letter;
       scanf(" %c", &letter);
       insert(root, index, letter);
+      return ' ';
     } else if (x == -2){
       removing(root, index, t);
       return ' ';
@@ -230,7 +234,7 @@ void printall(node *root, char * full){
   if (root == NULL) return;
   if (root->left == NULL && root->right == NULL){
     if(root->text != NULL && full != NULL){
-      strcat(full, root->text);
+      strncat(full, root->text, root->value);
     }
   } else{ 
     printall(root->left, full);
