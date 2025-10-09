@@ -74,7 +74,6 @@ int summ(node* root){
     return root->value;
   }
   int value = summ(root->left) + summ(root->right);
-  root->value = value;
   return value;
 }
 int get_height(node * root){
@@ -85,6 +84,7 @@ int get_height(node * root){
   root->height = height;
   return height;
 }
+
 void loop_sum(node *root){
   if (root->left == NULL && root->right == NULL){
       return;
@@ -107,8 +107,9 @@ void insert(node *root, int index, char letter){
   }
   free(root->text);
 
-  root->text = new_text;
+  root->text = new_text; // Aqui não ha valor null
   root->value += 1;
+
   if (root->value > root->l){
     int val = root->value % 2;
     int a = root->value / 2;
@@ -145,10 +146,9 @@ void insert(node *root, int index, char letter){
   }
 }
 void removing(node *root, int index, int t){
-  int i = 0;
   char * new_text = malloc((root->value) * sizeof(char));
   new_text[root->value - 1] = '\0';
-  for(; i < root->value - 1; i ++){
+  for(int i = 0; i < root->value - 1; i ++){
     if (i >= index){
       new_text[i] = root->text[i + 1];
     } else {
@@ -159,7 +159,7 @@ void removing(node *root, int index, int t){
   new_text[root->value] = '\0'; 
   if(root->value == 0){
     node *parent = root->parent;
-    node *sibling;
+    node *sibling = NULL;
     if (parent->right == root)
       sibling = parent->left;
     else
@@ -228,7 +228,7 @@ char search(node *root, int index, int x, int t){
 void printall(node *root, char * full){
 
   if (root == NULL) return;
-  if (root->left == NULL || root->right == NULL){
+  if (root->left == NULL && root->right == NULL){
     if(root->text != NULL && full != NULL){
       strcat(full, root->text);
     }
@@ -248,27 +248,29 @@ void printing(node *root, int i, int j){
 
 void free_nodes(node *root){
   if (root->left == NULL && root->right == NULL){
-    free(root->text);
+    if(root->text != NULL)
+      free(root->text);
     free(root);
     return;
 } else{
-  node *left = root->left;
-  node *right = root->right;
-  free(root->text);
+  free_nodes(root->left);
+  free_nodes(root->right);
   free(root);
-  free_nodes(left);
-  free_nodes(right);
+ 
 }
 
 }
 
 node *tree_to_string(node * root, int t){
   char* str = malloc((t + 1) * sizeof(char));
+  str[0] = '\0';
+  printall(root, str);
   int tt = strlen(str);
   str[tt] = '\0';
-  printall(root, str);
   free_nodes(root->left);
   free_nodes(root->right);
+  root->right = NULL;
+  root->left = NULL;
   string_to_tree(root, str, tt, root->l);
   return root;
 }
@@ -280,6 +282,7 @@ void checkNodes(node *root, int t){
   int deltaHeight = root->right->height - root->left->height;
   if(deltaHeight < -4 || deltaHeight > 4){
     tree_to_string(root, t);
+    return;
   } else {
     checkNodes(root->left, t);
     checkNodes(root->right, t);
@@ -326,8 +329,9 @@ int main(){
      checkNodes(root, t);
     } else if(strcmp(text, "PRINTALL") == 0){
       char *full_text = malloc((t + 1) * sizeof(char));
-      full_text[t] = '\0';
+      full_text[0] = '\0';
       printall(root, full_text);
+      full_text[t] = '\0';
       printf("DNA inteiro: %s\n", full_text);
       free(full_text);
     } else if(strcmp(text, "PRINT") == 0){
@@ -342,6 +346,7 @@ int main(){
   }
 
   char *str = malloc((t + 1) * sizeof(char));
+  str[0] = '\0';
   printall(root, str);
 
   int a, tt, c , g; 
@@ -360,6 +365,9 @@ int main(){
   printf("Contagem final: A:%d T:%d C:%d G:%d", a, tt, c, g);
 
   free(str);
+
+  free_nodes(root);
+
 
   return 0;
 }
