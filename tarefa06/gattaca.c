@@ -51,12 +51,9 @@ void string_to_tree(node *root, char * string, int t, int l){
 
     left_string[a] = '\0';
     right_string[b] = '\0';
-    for(int i = 0; i < a; i++){
-      left_string[i] = string[i];
-    }
-    for(int i = 0; i < b; i++){
-      right_string[i] = string[i + a];
-    }
+    strncpy(left_string, string, a);
+    strcpy(right_string, string + a);
+    
     node* node_left = init_node(root, root->l);
     node* node_right = init_node(root, root->l);
 
@@ -99,15 +96,13 @@ void loop_sum(node *root){
 }
 void insert(node *root, int index, char letter){
   char *new_text = malloc( (root->value + 2) * sizeof(char) );
-  int i;
-  for(i = 0; i < index; i++){
-    new_text[i] = root->text[i];
-  }
-  new_text[i] = letter;
-  i++;
-  for(; i < root->value + 1; i++){
-    new_text[i] = root->text[i - 1];
-  }
+  strncpy(new_text, root->text, index);
+  
+  
+  new_text[index] = letter;
+  
+  strcpy(new_text + index + 1, root->text + index);
+  new_text[root->value + 1] = '\0';
   free(root->text);
 
   root->text = new_text; 
@@ -159,7 +154,6 @@ void removing(node *root, int index, int t){
     }
   }
   root->value -= 1;   
-  new_text[root->value] = '\0'; 
   if(root->value == 0){
     node *parent = root->parent;
     node *sibling = NULL;
@@ -175,10 +169,12 @@ void removing(node *root, int index, int t){
       free_nodes(sibling->left);
       free_nodes(sibling->right);
       int len = strlen(str);
-      str[len] = '\0';
       sibling->text = str;
       sibling->value = len;
+      sibling->left = NULL;
+      sibling->right = NULL;
     }
+
 
     parent->text = sibling->text;
     parent->value = sibling->value;
@@ -252,8 +248,10 @@ void printing(node *root, int i, int j){
 
 void free_nodes(node *root){
   if (root->left == NULL && root->right == NULL){
-    if(root->text != NULL)
+    if(root->text != NULL){
       free(root->text);
+      root->text = NULL;
+    }
   free(root);
     return;
 } else{
@@ -375,3 +373,4 @@ int main(){
 
   return 0;
 }
+
