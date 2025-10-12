@@ -22,7 +22,7 @@ node * init_node(node * parent, int l){
   new_node->right = NULL;
   new_node->value = 0;
   new_node->text = NULL;
-  new_node-> height = 0;
+  new_node-> height = 1;
   new_node->l = l;
 
   return new_node;
