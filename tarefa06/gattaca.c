@@ -76,12 +76,21 @@ int summ(node* root){
   int value = summ(root->left) + summ(root->right);
   return value;
 }
+
+int get_all_tree_height(node * root){
+  if (root == NULL){
+    return 0;
+  }
+  int height = 1 + max(get_all_tree_height(root->left), get_all_tree_height(root->right));
+  root->height = height;
+  return height;
+}
+
 int get_height(node * root){
   if (root == NULL){
     return 0;
   }
   int height = 1 + max(get_height(root->left), get_height(root->right));
-  root->height = height;
   return height;
 }
 
@@ -181,6 +190,7 @@ void removing(node *root, int index, int t){
     free(root->text);
     root->text = NULL;
     free(root);
+    root = NULL;
     free(sibling);
     sibling = NULL;
 
@@ -218,6 +228,7 @@ char search(node *root, int index, int x, int t){
     return root->text[index];
 
   } else{
+    node *ex_node = root;
     if (index >= root->value){
       index -= root->value;
       root = root->right;
@@ -225,7 +236,13 @@ char search(node *root, int index, int x, int t){
       root = root->left;
     }
 
-    return search(root, index, x, t);
+    char c = search(root, index, x, t);
+
+    if (x == -2 || x == -1){
+     ex_node->height = get_height(ex_node);
+    }
+
+    return c;
   }
 }
 
@@ -281,6 +298,7 @@ node *tree_to_string(node * root, int t){
   return root;
 }
 
+// Faz o Balanceamento, se necessário.
 void checkNodes(node *root, int t){
   if (root->left == NULL && root->right == NULL){
     return;
@@ -311,8 +329,7 @@ int main(){
 
   string_to_tree(root, sequence, t, l);
   loop_sum(root);
-  get_height(root);
-
+  get_all_tree_height(root);
   int i = 0;
   for(; i < p; i++){
     char text[50];
@@ -322,16 +339,16 @@ int main(){
       scanf(" %d", &index);
       search(root, index, -1, 0);
       loop_sum(root);
-      get_height(root);
       t += 1;
+      // Faz o Balanceamento, se necessário.
       checkNodes(root, t);
     } else if(strcmp(text, "REMOVE") == 0){
       int index;
       scanf(" %d", &index);
       search(root, index, -2, t);
       loop_sum(root);
-      get_height(root);
       t -= 1;
+      // Faz o Balanceamento, se necessário.
      checkNodes(root, t);
     } else if(strcmp(text, "PRINTALL") == 0){
       char *full_text = malloc((t + 1) * sizeof(char));
