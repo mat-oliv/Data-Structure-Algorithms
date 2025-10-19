@@ -59,7 +59,6 @@ int main(){
       insert_task(hpm, hpmin, *t);
       printf("%s adicionada - Atividades futuras: %d\n", t->name, hpm->n);
 
-      free(t->name);
       free(t);
     } else if (strcmp(text, "agenda") == 0) {
       agenda(hpm, hpmin);
@@ -80,6 +79,11 @@ int main(){
   printf("Restaram %d atividades\n", hpm->n);
 
   free(text);
+
+  for(int i = 0; i < m; i++){
+    free(hpm->tasks[i].name);
+  }
+
   free(hpm->tasks);
   free(hpm->indexes);
   
