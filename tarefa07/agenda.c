@@ -6,7 +6,7 @@
 #define MAX_TIME 600
 
 typedef struct {
-  char * name;
+  char name[STR_SIZE];
   int dur;
   int priority;
   int id;
@@ -41,7 +41,6 @@ int main(){
   heap *hpm = init_heap(m);
   heap *hpmin = init_heap(m);
 
-  int c = 0;
 
 
   while (1){
@@ -58,7 +57,6 @@ int main(){
       task* t = init_task(time, priority, id);
       scanf(" %[^\n]", t->name);
 
-      c += 1;
 
       insert_task(hpm, hpmin, *t);
       printf("%s adicionada - Atividades futuras: %d\n", t->name, hpm->n);
@@ -84,9 +82,7 @@ int main(){
 
   free(text);
 
-  for (int i = 0; i < c; i++){
-    free(hpm->tasks[i].name);
-  }
+
 
   free(hpm->tasks);
   free(hpm->indexes);
@@ -114,7 +110,6 @@ heap *init_heap(int size){
 
 task *init_task(int dur, int priority, int id){
   task * new_task = malloc(sizeof(task));
-  new_task->name = malloc(STR_SIZE * sizeof(char));
   new_task->dur = dur;
   new_task->id = id;
   new_task->priority = priority;
