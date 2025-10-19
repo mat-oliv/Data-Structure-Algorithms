@@ -41,6 +41,8 @@ int main(){
   heap *hpm = init_heap(m);
   heap *hpmin = init_heap(m);
 
+  int c = 0;
+
 
   while (1){
 
@@ -55,6 +57,8 @@ int main(){
       scanf(" %d", &time);
       task* t = init_task(time, priority, id);
       scanf(" %[^\n]", t->name);
+
+      c += 1;
 
       insert_task(hpm, hpmin, *t);
       printf("%s adicionada - Atividades futuras: %d\n", t->name, hpm->n);
@@ -80,7 +84,7 @@ int main(){
 
   free(text);
 
-  for(int i = 0; i < m; i++){
+  for (int i = 0; i < c; i++){
     free(hpm->tasks[i].name);
   }
 
