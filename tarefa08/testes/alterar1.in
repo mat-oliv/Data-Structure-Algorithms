@@ -1,0 +1,31 @@
+INSERIR ARQUIVO
+capuladotempo.zip
+Cartas e itens diversos enterrados em cápsula pelos cidadãos em 1980.
+1 historiadacidade
+INSERIR ARQUIVO
+tecado.pg
+Atigo tecado de computador com tecas em mais ou meos bom estado.
+2 computação ferramenta
+INSERIR ARQUIVO
+corretor.txt
+Instruções para implemintação de corretor autografico.
+3 computação programação ferramenta
+BUSCAR ARQUIVO capsuladotempo.zip
+BUSCAR ARQUIVO corretor.txt
+BUSCAR ARQUIVO teclado.png
+ALTERAR ARQUIVO capuladotempo.zip
+capsuladotempo.zip
+Cartas e itens diversos enterrados em cápsula pelos cidadãos em 1980.
+ALTERAR ARQUIVO corretor.txt
+corretor.txt
+Instruções para implementação de corretor ortográfico.
+ALTERAR ARQUIVO tecado.pg
+teclado.png
+Antigo teclado de computador com teclas em mais ou menos bom estado.
+BUSCAR ARQUIVO capuladotempo.zip
+BUSCAR ARQUIVO capsuladotempo.zip
+BUSCAR ARQUIVO corretor.txt
+BUSCAR ARQUIVO teclado.png
+BUSCAR ARQUIVO tecado.pg
+BUSCAR TAG ferramenta
+ENCERRAR

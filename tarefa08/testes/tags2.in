@@ -1,0 +1,13 @@
+INSERIR ARQUIVO
+album.pdf
+Coleção de fotos históricas da cidade.
+2 historia predios
+BUSCAR TAG predios
+BUSCAR TAG arquitetura
+BUSCAR ARQUIVO album.pdf
+INSERIR TAG album.pdf arquitetura
+REMOVER TAG album.pdf predios
+BUSCAR TAG arquitetura
+BUSCAR TAG predios
+BUSCAR ARQUIVO album.pdf
+ENCERRAR

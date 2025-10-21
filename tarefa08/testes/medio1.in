@@ -1,0 +1,220 @@
+INSERIR ARQUIVO 
+arvore0.png
+Foto icônica.
+4 flor gema arvore ferramenta 
+BUSCAR TAG flor
+INSERIR ARQUIVO 
+historia2.zip
+Registros.
+9 album ferramenta flor agua lago gema rio museu historia 
+REMOVER ARQUIVO arvore0.png
+REMOVER TAG historia2.zip rio
+REMOVER TAG historia2.zip lago
+BUSCAR TAG gema
+BUSCAR TAG gema
+BUSCAR TAG ferramenta
+BUSCAR TAG agua
+REMOVER ARQUIVO historia2.zip
+INSERIR ARQUIVO 
+flor11.zip
+Coleção de documentos da época.
+3 gato rio flor 
+INSERIR ARQUIVO 
+historia12.png
+Diagrama ilustrativo.
+3 rio gato historia 
+BUSCAR ARQUIVO arvore0.png
+ALTERAR ARQUIVO historia12.png
+file14.pdf
+Mapa de bacias hidrograficas.
+BUSCAR ARQUIVO historia2.zip
+BUSCAR TAG historia
+ALTERAR ARQUIVO file14.pdf
+lago17.zip
+Coleção de documentos da época.
+BUSCAR ARQUIVO historia2.zip
+ALTERAR ARQUIVO lago17.zip
+cao19.pdf
+Livro digitalizado.
+REMOVER TAG cao19.pdf gato
+REMOVER TAG cao19.pdf historia
+ALTERAR ARQUIVO cao19.pdf
+arq22.txt
+Notas digitalizadas.
+BUSCAR ARQUIVO historia2.zip
+REMOVER ARQUIVO flor11.zip
+INSERIR ARQUIVO 
+file25.pdf
+Livro digitalizado.
+3 sitio foto historia 
+REMOVER TAG file25.pdf sitio
+INSERIR TAG file25.pdf album
+REMOVER TAG file25.pdf historia
+INSERIR TAG arq22.txt gema
+REMOVER ARQUIVO file25.pdf
+BUSCAR ARQUIVO file25.pdf
+INSERIR ARQUIVO 
+doc32.txt
+Instruções.
+3 gato flor agua 
+REMOVER ARQUIVO arq22.txt
+INSERIR ARQUIVO 
+file34.zip
+Coleção de fotos.
+4 cao sitio ferro arvore 
+REMOVER ARQUIVO file34.zip
+INSERIR ARQUIVO 
+flor36.txt
+Código.
+5 lago gema museu sitio flor 
+REMOVER ARQUIVO flor36.txt
+REMOVER ARQUIVO doc32.txt
+INSERIR ARQUIVO 
+foto39.png
+Foto historica.
+3 foto agua cao 
+BUSCAR ARQUIVO file25.pdf
+BUSCAR ARQUIVO historia12.png
+BUSCAR ARQUIVO file25.pdf
+INSERIR ARQUIVO 
+rio43.pdf
+Livro escaneado a partir de fotos tortas.
+5 album historia rio lago ferramenta 
+ALTERAR ARQUIVO foto39.png
+foto39.png
+Coleção de documentos da época.
+BUSCAR ARQUIVO file25.pdf
+REMOVER ARQUIVO foto39.png
+BUSCAR ARQUIVO flor11.zip
+BUSCAR ARQUIVO historia12.png
+INSERIR ARQUIVO 
+cao49.txt
+Instruções.
+5 museu sitio flor historia cao 
+ALTERAR ARQUIVO rio43.pdf
+arq50.png
+Foto icônica.
+BUSCAR ARQUIVO foto39.png
+BUSCAR TAG foto
+REMOVER ARQUIVO cao49.txt
+ALTERAR ARQUIVO arq50.png
+album54.png
+Foto historica.
+BUSCAR TAG historia
+REMOVER TAG album54.png lago
+REMOVER TAG album54.png historia
+INSERIR ARQUIVO 
+arvore58.txt
+Instruções.
+4 sitio rio museu arvore 
+INSERIR ARQUIVO 
+ferro59.png
+Diagrama ilustrativo.
+4 lago album ferro gato 
+REMOVER ARQUIVO ferro59.png
+BUSCAR ARQUIVO foto39.png
+INSERIR ARQUIVO 
+flor62.png
+Foto historica.
+6 flor rio ferro agua arvore gato 
+BUSCAR ARQUIVO flor11.zip
+ALTERAR ARQUIVO album54.png
+album54.png
+Coleção de documentos da época.
+REMOVER ARQUIVO flor62.png
+INSERIR ARQUIVO 
+flor66.txt
+Instruções.
+8 foto ferramenta flor lago agua ferro museu cao 
+INSERIR ARQUIVO 
+gato67.png
+Foto historica.
+5 rio sitio flor arvore gato 
+ALTERAR ARQUIVO gato67.png
+gato67.png
+Foto da região.
+BUSCAR ARQUIVO foto39.png
+REMOVER ARQUIVO arvore58.txt
+REMOVER ARQUIVO album54.png
+BUSCAR TAG lago
+BUSCAR ARQUIVO gato67.png
+INSERIR ARQUIVO 
+lago74.pdf
+Album de fotos.
+4 gato agua lago album 
+ALTERAR ARQUIVO gato67.png
+foto75.zip
+Coleção de imagens.
+BUSCAR TAG rio
+INSERIR ARQUIVO 
+museu77.zip
+Coleção de documentos da época.
+7 arvore agua ferramenta ferro foto lago museu 
+BUSCAR TAG agua
+ALTERAR ARQUIVO lago74.pdf
+lago74.pdf
+Coleção de documentos.
+REMOVER ARQUIVO lago74.pdf
+BUSCAR ARQUIVO gato67.png
+ALTERAR ARQUIVO museu77.zip
+museu77.zip
+Coleção de documentos.
+REMOVER TAG museu77.zip museu
+ALTERAR ARQUIVO flor66.txt
+ferro84.zip
+Coleção de documentos da época.
+BUSCAR ARQUIVO arvore58.txt
+INSERIR ARQUIVO 
+flor86.png
+Foto inusitada.
+3 ferro cao flor 
+BUSCAR ARQUIVO flor86.png
+ALTERAR ARQUIVO museu77.zip
+museu77.zip
+Documento.
+REMOVER TAG ferro84.zip ferramenta
+BUSCAR TAG flor
+ALTERAR ARQUIVO ferro84.zip
+file91.zip
+Coleção de imagens.
+ALTERAR ARQUIVO flor86.png
+file92.txt
+Notas digitalizadas.
+BUSCAR TAG rio
+BUSCAR TAG rio
+INSERIR ARQUIVO 
+cao95.zip
+Coleção de jornais e revistas digitalizadas.
+3 lago historia cao 
+ALTERAR ARQUIVO file92.txt
+file92.txt
+Registros.
+ALTERAR ARQUIVO cao95.zip
+file97.pdf
+Livro digitalizado.
+BUSCAR ARQUIVO museu77.zip
+ALTERAR ARQUIVO file97.pdf
+file97.pdf
+Coleção de imagens.
+REMOVER TAG file91.zip museu
+ALTERAR ARQUIVO file92.txt
+arvore101.zip
+Conjunto de materiais.
+INSERIR ARQUIVO 
+sitio102.txt
+Código.
+2 gema sitio 
+BUSCAR ARQUIVO cao49.txt
+ALTERAR ARQUIVO file97.pdf
+file97.pdf
+Código.
+BUSCAR ARQUIVO rio43.pdf
+INSERIR ARQUIVO 
+foto106.pdf
+Livro escaneado a partir de fotos tortas.
+2 cao foto 
+BUSCAR ARQUIVO flor36.txt
+BUSCAR TAG museu
+BUSCAR ARQUIVO file34.zip
+BUSCAR TAG arvore
+ENCERRAR

@@ -1,0 +1,281 @@
+INSERIR ARQUIVO 
+doc0.pdf
+Mapa da região.
+5 historia ferramenta gato agua gema 
+BUSCAR TAG historia
+BUSCAR TAG agua
+REMOVER TAG doc0.pdf ferramenta
+BUSCAR TAG gato
+INSERIR ARQUIVO 
+sitio5.pdf
+Coleção de documentos.
+6 arvore agua ferro ferramenta foto sitio 
+BUSCAR ARQUIVO sitio5.pdf
+BUSCAR TAG historia
+BUSCAR ARQUIVO sitio5.pdf
+REMOVER TAG doc0.pdf historia
+REMOVER TAG sitio5.pdf ferramenta
+BUSCAR ARQUIVO doc0.pdf
+INSERIR ARQUIVO 
+album12.pdf
+Documento.
+11 lago ferro agua ferramenta gato cao flor rio gema historia album 
+REMOVER TAG album12.pdf ferro
+BUSCAR ARQUIVO doc0.pdf
+REMOVER TAG album12.pdf gato
+INSERIR ARQUIVO 
+album16.png
+Foto historica.
+4 museu agua arvore album 
+BUSCAR TAG album
+REMOVER TAG sitio5.pdf agua
+REMOVER TAG doc0.pdf gato
+INSERIR ARQUIVO 
+gema20.png
+Foto da região.
+6 ferro gema ferramenta lago cao gato 
+BUSCAR ARQUIVO gema20.png
+BUSCAR ARQUIVO album16.png
+INSERIR ARQUIVO 
+foto23.png
+Foto historica.
+8 cao gato sitio flor gema arvore agua foto 
+BUSCAR ARQUIVO foto23.png
+BUSCAR TAG ferro
+INSERIR ARQUIVO 
+gema26.pdf
+Coleção de documentos.
+4 gato museu gema ferro 
+REMOVER TAG gema20.png gato
+INSERIR ARQUIVO 
+ferro28.txt
+Instruções.
+10 agua lago flor ferramenta arvore ferro rio museu foto album 
+INSERIR ARQUIVO 
+album29.pdf
+Album de fotos.
+5 agua cao gato lago album 
+BUSCAR ARQUIVO album29.pdf
+REMOVER TAG doc0.pdf agua
+REMOVER TAG foto23.png gato
+INSERIR ARQUIVO 
+ferro33.pdf
+Coleção de documentos.
+3 lago museu ferro 
+INSERIR TAG album16.png lago
+INSERIR ARQUIVO 
+file35.png
+Foto historica.
+4 flor gato ferramenta agua 
+BUSCAR TAG sitio
+INSERIR TAG foto23.png ferramenta
+BUSCAR ARQUIVO doc0.pdf
+BUSCAR TAG gato
+INSERIR TAG album12.pdf foto
+BUSCAR TAG gema
+REMOVER TAG album12.pdf album
+BUSCAR ARQUIVO doc0.pdf
+INSERIR ARQUIVO 
+lago44.pdf
+Livro escaneado a partir de fotos tortas.
+6 cao lago album ferro gema ferramenta 
+REMOVER TAG album12.pdf flor
+BUSCAR ARQUIVO gema26.pdf
+BUSCAR TAG ferro
+BUSCAR ARQUIVO sitio5.pdf
+BUSCAR ARQUIVO album12.pdf
+BUSCAR TAG historia
+INSERIR TAG file35.png rio
+INSERIR TAG album12.pdf museu
+BUSCAR ARQUIVO ferro28.txt
+INSERIR ARQUIVO 
+foto54.zip
+Coleção de jornais e revistas digitalizadas.
+5 gema rio ferro gato foto 
+BUSCAR ARQUIVO lago44.pdf
+INSERIR TAG lago44.pdf flor
+BUSCAR TAG lago
+INSERIR ARQUIVO 
+sitio58.zip
+Coleção de jornais e revistas digitalizadas.
+6 flor gema sitio ferramenta album agua 
+INSERIR ARQUIVO 
+historia59.png
+Foto da região.
+7 arvore sitio historia album gema lago cao 
+BUSCAR TAG lago
+REMOVER TAG ferro28.txt flor
+REMOVER TAG lago44.pdf cao
+INSERIR TAG file35.png arvore
+INSERIR TAG gema26.pdf rio
+BUSCAR ARQUIVO ferro28.txt
+INSERIR TAG foto23.png ferro
+BUSCAR TAG gema
+BUSCAR ARQUIVO ferro33.pdf
+INSERIR TAG historia59.png gato
+REMOVER TAG gema20.png gema
+BUSCAR TAG lago
+INSERIR TAG ferro28.txt gato
+INSERIR ARQUIVO 
+museu73.zip
+Conjunto de materiais.
+9 museu cao historia agua lago album rio ferro arvore 
+REMOVER TAG album16.png agua
+INSERIR ARQUIVO 
+file75.pdf
+Documento.
+3 historia arvore gato 
+BUSCAR ARQUIVO gema26.pdf
+BUSCAR TAG historia
+REMOVER TAG sitio58.zip flor
+INSERIR ARQUIVO 
+file79.png
+Foto da região.
+2 museu historia 
+BUSCAR TAG flor
+INSERIR ARQUIVO 
+gema81.txt
+Instruções.
+4 flor album arvore gema 
+BUSCAR TAG arvore
+REMOVER TAG foto54.zip gato
+INSERIR TAG ferro28.txt sitio
+BUSCAR ARQUIVO file75.pdf
+REMOVER TAG album16.png arvore
+REMOVER TAG gema81.txt flor
+REMOVER TAG file79.png museu
+INSERIR TAG doc0.pdf foto
+BUSCAR TAG foto
+REMOVER TAG lago44.pdf flor
+BUSCAR TAG ferro
+BUSCAR ARQUIVO file75.pdf
+BUSCAR ARQUIVO album12.pdf
+INSERIR ARQUIVO 
+museu95.txt
+Instruções.
+3 sitio ferro museu 
+INSERIR ARQUIVO 
+museu96.png
+Foto inusitada.
+6 arvore gato historia foto gema museu 
+REMOVER TAG historia59.png lago
+BUSCAR ARQUIVO museu96.png
+REMOVER TAG album12.pdf lago
+BUSCAR TAG cao
+BUSCAR TAG gema
+BUSCAR TAG museu
+BUSCAR ARQUIVO gema20.png
+BUSCAR ARQUIVO ferro28.txt
+BUSCAR TAG sitio
+BUSCAR ARQUIVO ferro33.pdf
+REMOVER TAG file75.pdf arvore
+BUSCAR ARQUIVO historia59.png
+REMOVER TAG ferro33.pdf lago
+BUSCAR ARQUIVO foto23.png
+REMOVER TAG album12.pdf agua
+INSERIR ARQUIVO 
+museu112.pdf
+Documento.
+3 arvore museu ferro 
+BUSCAR ARQUIVO lago44.pdf
+BUSCAR ARQUIVO doc0.pdf
+BUSCAR ARQUIVO file75.pdf
+INSERIR ARQUIVO 
+gema116.png
+Foto da região.
+4 ferro rio sitio gema 
+BUSCAR ARQUIVO foto54.zip
+REMOVER TAG gema26.pdf gema
+INSERIR ARQUIVO 
+gema119.txt
+Instruções.
+7 sitio ferro historia arvore museu agua gema 
+BUSCAR ARQUIVO file35.png
+BUSCAR TAG ferro
+BUSCAR ARQUIVO gema81.txt
+BUSCAR ARQUIVO file75.pdf
+INSERIR ARQUIVO 
+museu124.pdf
+Livro escaneado a partir de fotos tortas.
+6 arvore album gema ferramenta agua museu 
+BUSCAR TAG cao
+INSERIR ARQUIVO 
+file126.txt
+Instruções.
+2 rio museu 
+REMOVER TAG foto23.png arvore
+BUSCAR ARQUIVO foto23.png
+REMOVER TAG ferro33.pdf ferro
+REMOVER TAG album12.pdf rio
+INSERIR ARQUIVO 
+sitio131.pdf
+Mapa da região.
+4 album rio cao sitio 
+INSERIR ARQUIVO 
+gema132.pdf
+Album de fotos.
+5 museu historia lago cao gema 
+REMOVER TAG historia59.png historia
+REMOVER TAG foto23.png agua
+REMOVER TAG sitio131.pdf cao
+REMOVER TAG gema20.png ferramenta
+BUSCAR ARQUIVO ferro28.txt
+BUSCAR ARQUIVO lago44.pdf
+INSERIR ARQUIVO 
+gema139.png
+Foto da região.
+5 album gema sitio arvore ferro 
+BUSCAR ARQUIVO gema26.pdf
+REMOVER TAG sitio58.zip sitio
+BUSCAR ARQUIVO file79.png
+BUSCAR TAG ferro
+INSERIR ARQUIVO 
+foto144.txt
+Código.
+3 flor cao foto 
+BUSCAR ARQUIVO album16.png
+BUSCAR TAG foto
+BUSCAR TAG gema
+BUSCAR ARQUIVO sitio58.zip
+BUSCAR TAG historia
+BUSCAR TAG museu
+INSERIR ARQUIVO 
+cao151.txt
+Instruções.
+5 foto sitio lago gato cao 
+INSERIR ARQUIVO 
+ferro152.png
+Diagrama ilustrativo.
+5 ferro album museu gema lago 
+BUSCAR TAG gema
+INSERIR ARQUIVO 
+flor154.pdf
+Coleção de documentos.
+3 rio gato flor 
+BUSCAR ARQUIVO museu124.pdf
+REMOVER TAG lago44.pdf ferro
+REMOVER TAG doc0.pdf gema
+INSERIR TAG gema26.pdf foto
+REMOVER TAG historia59.png arvore
+BUSCAR ARQUIVO sitio131.pdf
+INSERIR TAG historia59.png historia
+BUSCAR ARQUIVO file75.pdf
+BUSCAR ARQUIVO gema119.txt
+BUSCAR TAG flor
+REMOVER TAG foto54.zip ferro
+INSERIR ARQUIVO 
+foto166.zip
+Coleção de fotos.
+3 arvore museu foto 
+INSERIR TAG doc0.pdf arvore
+BUSCAR ARQUIVO museu112.pdf
+BUSCAR TAG rio
+REMOVER TAG file75.pdf historia
+INSERIR ARQUIVO 
+arvore171.png
+Foto historica.
+6 gato foto gema arvore agua rio 
+BUSCAR ARQUIVO file75.pdf
+REMOVER TAG gema119.txt gema
+BUSCAR TAG album
+ENCERRAR

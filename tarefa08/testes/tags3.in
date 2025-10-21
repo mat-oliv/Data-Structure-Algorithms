@@ -1,0 +1,23 @@
+INSERIR ARQUIVO 
+file0.txt
+Notas digitalizadas.
+2 sitio cao 
+BUSCAR ARQUIVO file0.txt
+INSERIR ARQUIVO 
+gato2.zip
+Coleção de imagens.
+5 sitio agua foto rio gato 
+INSERIR ARQUIVO 
+arq4.pdf
+Livro escaneado a partir de fotos tortas.
+3 museu sitio ferramenta 
+INSERIR ARQUIVO 
+historia5.pdf
+Documento.
+3 ferramenta foto historia 
+REMOVER TAG arq4.pdf ferramenta
+REMOVER TAG gato2.zip rio
+REMOVER TAG historia5.pdf historia
+BUSCAR TAG historia
+BUSCAR ARQUIVO gato2.zip
+ENCERRAR

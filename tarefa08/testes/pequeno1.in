@@ -1,0 +1,16 @@
+INSERIR ARQUIVO 
+historia0.pdf
+Mapa de bacias hidrograficas.
+4 historia arvore album lago 
+BUSCAR ARQUIVO historia0.pdf
+INSERIR ARQUIVO 
+lago2.png
+Diagrama ilustrativo.
+3 arvore foto lago 
+REMOVER TAG lago2.png arvore
+REMOVER TAG historia0.pdf album
+BUSCAR ARQUIVO lago2.png
+REMOVER TAG lago2.png lago
+REMOVER TAG historia0.pdf arvore
+REMOVER ARQUIVO lago2.png
+ENCERRAR
