@@ -33,8 +33,8 @@ int main(){
 
   vect * hashTags = malloc(30 * sizeof(vect));
   for (int i = 0; i < 30; i ++){
+    hashTags[i].n = 1;
     strcpy(hashTags[i].v[0], " ");
-    hashTags[i].n += 1;
   }
   file * hashi = malloc(2000 * sizeof(file));
   for (int i = 0; i < 2000; i ++){
