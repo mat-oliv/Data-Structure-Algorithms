@@ -19,7 +19,7 @@ struct node {
 };
 
 typedef struct {
-  node print_order[5001];
+  node *print_order[5001];
   int n;
   int g;
   int h;
@@ -56,7 +56,6 @@ int main(){
       if (line[0] == '\n' && line[1] == '\0') 
           continue; 
       
-      if(strcmp(line, "ff\n") == 0) break;
       char *tok = strtok(line, limits);
       int j = 0;
       node * dad;
@@ -93,6 +92,7 @@ int main(){
       }
 
   }
+
   vect *print_order = malloc(sizeof(vect));
   print_order->n = 0;
   print_order->g = 0;
@@ -100,36 +100,54 @@ int main(){
 
   DFS(nodes[0], print_order);
 
-  char names[5001][16];
   if(print_order->g == -2){
-    for(int i =1 ; i < print_order->h-1; i++){
-        strcpy(names[i], print_order->print_order[i].name);
+   
+    int u = print_order->h - 1;
+
+    for(int x = 0; x < print_order->h/2; x++){
+      node * a = print_order->print_order[x];
+        print_order->print_order[x] = print_order->print_order[u];
+        print_order->print_order[u] = a;
+        u -= 1;
+      
     }
 
-    for(int i = 1; i < print_order->h-1 - 1; i++ ){
-      for(int j = i; j < print_order->h- 1; j++){
-        if(strcmp(names[j], names[i]) < 0){
-          char name[16];
-          strcpy(name, names[i]);
-          strcpy(names[i], names[j]);
-          strcpy(names[j], name);
+    
+   int h = 0;
+   char max[16];
+   strcpy(max, print_order->print_order[0]->name);
+
+   for(int x = 1; x < print_order->h; x++){
+    if(strcmp(print_order->print_order[x]->name, max) < 0) {
+      strcpy(max, print_order->print_order[x]->name);
+      h = x;
+   }
+  }
+
+  print_order->h -= 1;
+    printf("Erro: dependências circulares entre os arquivos necessários para construir '%s'\n", nodes[0]->name);
+    printf("Ciclo: %s", print_order->print_order[h]->name);
+    int first_h;
+    first_h = h;
+    h += 1;
+    while (1){
+      if (h >= print_order->h) {
+        if(first_h != 0)
+        h = 0;
+        else{
+          break;
         }
       }
-    }    strcpy(names[0], print_order->print_order[0].name);
-         strcpy(names[print_order->h - 1], print_order->print_order[print_order->h - 1].name);
-
-
-    printf("Erro: dependências circulares entre os arquivos necessários para construir 'all'\n");
-    for(int i =0 ; i < print_order->h; i++){
-      printf("%s", names[i]);
-      if(i < print_order->h - 1){
-        printf(" -> ");
-      }
+      printf(" -> %s", print_order->print_order[h]->name);
+      if (h == first_h - 1) break;
+      h += 1;
     }
+
+    printf(" -> %s", print_order->print_order[first_h]->name);
 
   } else {
     for(int i =0 ; i  < print_order->n; i++){
-      printf("SEQ - %d: %s\n", i+1, print_order->print_order[i].name);
+      printf("SEQ - %d: %s\n", i+1, print_order->print_order[i]->name);
   }
 
   vectc *vec = malloc(sizeof(vectc));
@@ -143,13 +161,19 @@ int main(){
   for(int i = 0; i < vec->n; i++){
     sorted(vec->node_depth[i], vec->m_n[i]);
    for(int j = 0; j < vec->m_n[i]; j ++){
-      printf("Distância até all - %d : %s \n", i, vec->node_depth[i][j]);
+      printf("Distância até %s - %d: %s\n", nodes[0]->name, i, vec->node_depth[i][j]);
     }
   }
-
-  
+  free(vec);
     
   }
+
+  for (int i = 0; i < x; i++){
+    free(nodes[i]);
+  }
+  free(nodes);
+
+  free(print_order);
 
   return 0;
 }
@@ -157,11 +181,11 @@ int main(){
 void DFS(node * all, vect *order){
   
   if(all->state == 1){
-    order->print_order[order->n] = *all;
+    order->print_order[order->n] = all;
     order->n += 1; 
     order->g = -1;
-    order->print_order[5000] = *all;
-    order->print_order[order->h] = *all;
+    order->print_order[5000] = all;
+    order->print_order[order->h] = all;
     order->h += 1;
     return;
   } else if(all->state == 2){
@@ -171,36 +195,33 @@ void DFS(node * all, vect *order){
   all->state = 1;
 
   if(all->n == 0){
-    order->print_order[order->n] = *all;
+    order->print_order[order->n] = all;
     order-> n += 1;
     all->state = 2;
     return;
   }
   sorting(all);
   for(int i = 0; i < all->n; i++){
-    DFS(all->neighbors[i], order);
+    if(order->g != -1)
+      DFS(all->neighbors[i], order);
   }
 
   if(order->g == -1){
-    if(strcmp(all->name, order->print_order[5000].name) == 0){
+    if(strcmp(all->name, order->print_order[5000]->name) == 0){
       order->g = -2;
     } 
-    order->print_order[order->h] = *all;
+    order->print_order[order->h] = all;
       order->h += 1;
 
   }
 
-  order->print_order[order->n] = *all;
+  order->print_order[order->n] = all;
   order->n += 1;
   all->state = 2;
 
-  
-  
 }
 
-void add_to_list(node* dad, node* son){
-  dad->neighbors[dad->n] = son;
-}
+
 
 node * init_node(){
   node * nod = malloc(sizeof(node)); 
@@ -239,7 +260,8 @@ void sorted(char names[][16], int n){
   for(int i = 0; i < n; i++ ){
     for(int j = i; j < n; j++){
       if(strcmp(names[j], names[i]) < 0){
-        char * namesi = names[i];
+        char  namesi[16];
+        strcpy(namesi, names[i]);
         strcpy(names[i], names[j]);
         strcpy(names[j], namesi);
       }
@@ -249,34 +271,33 @@ void sorted(char names[][16], int n){
 
 void BFS(node * all, vectc* vec){
 
-  node frontier[5001];
+  node *frontier[5001];
   int k = 0;
   int j = 1;
-  frontier[0] = *all;
+  frontier[0] = all;
   all->depth = 0;
+  all->state2 = 1;
   while (1){
-    if (k>= j || k >= 5000 || j >= 5000) break;
+    if (k>= j ) break;
 
-    node a = frontier[k];
-    printf("%s", a.name);
+    node *a = frontier[k];
 
     k += 1;
 
-    for (int i = 0; i < a.n; i++){
-      if(a.neighbors[i]->state2 == 0){
-      a.neighbors[i]->state2 = 1;
-      a.neighbors[i]->depth = a.depth + 1;
-      frontier[j] = *a.neighbors[i];
+    for (int i = 0; i < a->n; i++){
+      if(a->neighbors[i]->state2 == 0){
+      a->neighbors[i]->state2 = 1;
+      a->neighbors[i]->depth = a->depth + 1;
+      frontier[j] = a->neighbors[i];
       j += 1;
       }
     }
 
-   strcpy(vec->node_depth[a.depth][vec->m_n[a.depth]], a.name);
-   vec->m_n[a.depth] += 1;
-   if(a.depth >= vec->n) 
-      vec->n += 1;
-    
+   strcpy(vec->node_depth[a->depth][vec->m_n[a->depth]], a->name);
+   vec->m_n[a->depth] += 1;
+   
+   if (a->depth + 1 > vec->n)
+    vec->n = a->depth + 1; 
   }
-  
 }
 
