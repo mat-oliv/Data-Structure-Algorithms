@@ -169,6 +169,7 @@ int main(){
   }
 
   for (int i = 0; i < x; i++){
+    free(nodes[i]->neighbors);
     free(nodes[i]);
   }
   free(nodes);
