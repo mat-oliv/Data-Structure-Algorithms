@@ -101,6 +101,7 @@ int main(){
  // system("leaks rede");
   free(best_path->path);
   free(best_path);
+  free(node_sorted);
   destroy_graph(g);
   free(nodes);
     
@@ -175,6 +176,7 @@ for(int i = 0; i < next_check->n; i++){
     }
   }
 }
+
   for (int i = 0; i < next_check->n; i++){
     int sum1 = 0;
    
@@ -237,9 +239,12 @@ void destroy_graph (graph * g) {
       free(a);
       a = b;      
     }
+
     free(g->adj[i]);
   }
+  free(g->adj2[i]);
    }
+   free(g->adj2);
    free(g->adj);
    free(g);
    }
