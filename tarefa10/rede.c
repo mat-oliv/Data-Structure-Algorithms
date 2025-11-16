@@ -71,9 +71,16 @@ int main(){
     search(nodes, n, g, nodes[i], NULL, NULL, best_path);
   }
 
-  printf("OI: %d", best_path->w);
+  printf("%d\n", best_path->w);
+  for(int i = 0; i < best_path->n; i++){
+    if(i < best_path->n - 1)
+      printf("%d ", best_path->path[i]);
+    else
+     printf("%d\n", best_path->path[i]);
 
+  }
 
+ // system("leaks rede");
   return 0;
 }
 
@@ -103,15 +110,17 @@ void search(node * nodes, int n, graph * g, node cur_node, vect * cur_path, vect
   }
   }
 
-  if(next_check->n == 0) return;
 
   vect * cur_pat;
+  cur_pat = init_vect(n);
 
-  if(cur_path == NULL){
-    cur_pat = init_vect(n);
-  } else {
-    cur_pat = cur_path;
-  }
+  if(cur_path != NULL){
+   cur_pat->n = cur_path->n;
+   cur_pat->w = cur_path->w;
+   for(int i =0; i < cur_pat->n; i++){
+    cur_pat->path[i] = cur_path->path[i];
+   }
+  } 
 
   cur_pat->path[cur_pat->n] = cur_node.id;
   cur_pat->w += cur_node.w;
@@ -129,6 +138,8 @@ void search(node * nodes, int n, graph * g, node cur_node, vect * cur_path, vect
     }
     best_path->n = cur_pat-> n;
   }
+
+  if(next_check->n == 0) return;
 
   for (int i = 0; i < next_check->n; i++){
     search(nodes, n, g, nodes[next_check->path[i]], cur_pat, next_check, best_path);
@@ -174,7 +185,6 @@ void destroy_graph (graph * g) {
   
 vect * init_vect(int n){
   vect * v = malloc(sizeof(vect));
-  v->n = n;
   v-> w = 0 ;
   v->path = malloc(n * sizeof(int));
   return v;
