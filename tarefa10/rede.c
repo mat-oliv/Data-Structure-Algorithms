@@ -14,6 +14,7 @@ struct node {
 
 typedef struct {
   node ** adj;
+  int ** adj2;
   int n;
 } graph;
 
@@ -38,14 +39,20 @@ int has_edge(graph* g, int u, int v);
 
 
 void search(node * nodes, int n, graph * g,node cur_node, vect * cur_path, vect * to_check, vect * best_path);
+void search2(node * nodes, int w, int n, graph * g,node cur_node, vect * to_check, vect * best_path);
 
-int in_list(vect * vec, int x);
+
 
 int main(){
 
   int n, m;
   scanf(" %d %d", &n, &m);
 
+
+  int max = 0;
+  int max2 = 0;
+  int pos2 = 0;
+  int pos = 0;
 
   node * nodes = malloc(n * sizeof(node));
   graph * g = init_graph(n);
@@ -58,14 +65,30 @@ int main(){
     nodes[i].id = i;
     scanf(" %d", &w);
     nodes[i].w = w;
+    if (w > max){
+      max2 = max;
+      pos2 = pos;
+      max = w;
+      pos = i;
+    
+    }
+    if (w < max && w > max2){
+      max2 = w;
+      pos2 = i;
+    }
   }
 
-  
   int u, v;
   for(int i = 0; i < m; i++){
     scanf(" %d %d", &u, &v);
+    g->adj2[u][v] = 1;
+    g->adj2[v][u] = 1;
     insert_edge(nodes, g, u, v);
   }
+
+  search(nodes, n, g, nodes[pos], NULL, NULL, best_path);
+  search(nodes, n, g, nodes[pos2], NULL, NULL, best_path);
+
 
   for (int i = 0; i < n; i++){
     search(nodes, n, g, nodes[i], NULL, NULL, best_path);
@@ -89,6 +112,60 @@ int main(){
   return 0;
 }
 
+void search2(node * nodes, int w, int n, graph * g, node cur_node,vect * to_check, vect * best_path){
+  vect * next_check;
+  next_check = init_vect(n);
+  if(to_check == NULL){
+   node * next_node = g->adj[cur_node.id];
+   while (next_node != NULL){
+    next_check->path[next_check->n] = next_node->id;
+    next_check->n += 1;
+    next_check->w += next_node->w;
+    next_node = next_node->next;
+   }
+  } else {
+    for(int i = 0; i < to_check->n; i++){
+      if(g->adj2[cur_node.id][to_check->path[i]] && cur_node.id != to_check->path[i]){
+        next_check->path[next_check->n] = to_check->path[i];
+        next_check->n += 1;
+        next_check->w += nodes[to_check->path[i]].w;
+      }
+     
+      
+  }
+  }
+
+  w += cur_node.w;
+  if(w > best_path->w){
+    best_path->w = w;
+  }
+
+  if(next_check->n == 0){
+    free(next_check->path);
+    free(next_check);
+    return;
+  }
+
+
+    int i = 0;
+    int max = 0;
+    for (int j = 0; j < next_check->n; j++){
+      if(nodes[next_check->path[j]].w > max){
+        i = j;
+        max = nodes[next_check->path[j]].w;
+      }
+    }
+ 
+ 
+
+    search2(nodes,w, n, g, nodes[next_check->path[i]], next_check, best_path);
+  
+
+  free(next_check->path);
+  free(next_check);
+
+}
+
 void search(node * nodes, int n, graph * g, node cur_node, vect * cur_path, vect * to_check, vect * best_path){
   vect * next_check;
   next_check = init_vect(n);
@@ -102,16 +179,12 @@ void search(node * nodes, int n, graph * g, node cur_node, vect * cur_path, vect
    }
   } else {
     for(int i = 0; i < to_check->n; i++){
-      node * next_node = g->adj[cur_node.id];
-      while (next_node != NULL){
-      if(to_check->path[i] == next_node->id){
-        next_check->path[next_check->n] = next_node->id;
+      if(g->adj2[cur_node.id][to_check->path[i]] && cur_node.id != to_check->path[i]){
+        next_check->path[next_check->n] = to_check->path[i];
         next_check->n += 1;
-        next_check->w += next_node->w;
-        break;
+        next_check->w += nodes[to_check->path[i]].w;
       }
-      next_node = next_node->next;
-      }
+     
   }
   }
 
@@ -181,9 +254,15 @@ graph * init_graph(int n){
   int i;
   graph * g = malloc(sizeof(graph));
   g->n = n;
-  g->adj = malloc(n * sizeof(int*));
+  g->adj = malloc(n * sizeof(node*));
+  g->adj2 = malloc(n * sizeof(int*));
+  
   for(i = 0; i < n; i ++){
     g->adj[i] = NULL;
+    g->adj2[i] = malloc(n *sizeof(int));
+    for(int j = 0; j < n; j++){
+      g->adj2[i][j] = 0;
+    }
   }
 
   return g;
