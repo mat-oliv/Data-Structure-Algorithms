@@ -81,6 +81,10 @@ int main(){
   }
 
  // system("leaks rede");
+ free_vect(best_path);
+    destroy_graph(g);
+    free(nodes);
+    
   return 0;
 }
 
@@ -128,7 +132,6 @@ void search(node * nodes, int n, graph * g, node cur_node, vect * cur_path, vect
 
   int w_max = cur_pat->w + next_check->w;
 
-  if(w_max <= best_path->w) return;
  
 
   if(cur_pat->w > best_path->w){
@@ -138,12 +141,18 @@ void search(node * nodes, int n, graph * g, node cur_node, vect * cur_path, vect
     }
     best_path->n = cur_pat-> n;
   }
-
-  if(next_check->n == 0) return;
+  if(w_max <= best_path->w || next_check->n == 0){
+    free(next_check);
+    free_vect(cur_pat);
+    return;
+}
 
   for (int i = 0; i < next_check->n; i++){
     search(nodes, n, g, nodes[next_check->path[i]], cur_pat, next_check, best_path);
   }
+
+  free(next_check);
+  free(cur_pat);
 
 }
 
