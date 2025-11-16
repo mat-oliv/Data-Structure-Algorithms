@@ -41,7 +41,7 @@ int has_edge(graph* g, int u, int v);
 void search(node * nodes, int n, graph * g,node cur_node, vect * cur_path, vect * to_check, vect * best_path);
 void search2(node * nodes, int w, int n, graph * g,node cur_node, vect * to_check, vect * best_path);
 
-
+int compare(const void *a, const void *b); 
 
 int main(){
 
@@ -74,22 +74,13 @@ int main(){
     insert_edge(nodes, g, u, v);
   }
 
-  for(int i = 0; i < n; i++){
-    for (int j = i; j < n; j++){
-      if(node_sorted[j].w > node_sorted[i].w){
-        node a = node_sorted[i];
-        node_sorted[i] = node_sorted[j];
-        node_sorted[j] = a;
-      }
-    }
-  }
+  qsort(node_sorted, n, sizeof(node), compare);
 
 
   for (int i = 0; i < n; i++){
     search(nodes, n, g, node_sorted[i], NULL, NULL, best_path);
   }
 
-  printf("%d\n", best_path->w);
   for(int i = 0; i < best_path->n; i++){
     if(i < best_path->n - 1)
       printf("%d ", best_path->path[i]);
@@ -119,7 +110,6 @@ void search(node * nodes, int n, graph * g, node cur_node, vect * cur_path, vect
     next_check->w += next_node->w;
     next_node = next_node->next;
    }
-   if(next_check->w + cur_node.w < best_path->w) return;
   } else {
     for(int i = 0; i < to_check->n; i++){
       if(g->adj2[cur_node.id][to_check->path[i]] && cur_node.id != to_check->path[i]){
@@ -255,4 +245,10 @@ vect * init_vect(int n){
   v-> w = 0 ;
   v->path = malloc(n * sizeof(int));
   return v;
+}
+
+int compare(const void *a, const void *b) {
+  node *na = (node*)a;
+  node *nb = (node*)b;
+  return nb->w - na->w;  
 }
