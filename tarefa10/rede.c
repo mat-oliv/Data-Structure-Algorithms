@@ -83,8 +83,8 @@ int main(){
  // system("leaks rede");
   free(best_path->path);
   free(best_path);
-    destroy_graph(g);
-    free(nodes);
+  destroy_graph(g);
+  free(nodes);
     
   return 0;
 }
@@ -189,8 +189,17 @@ graph * init_graph(int n){
 
 void destroy_graph (graph * g) {
    int i;
-   for (i = 0; i < g->n; i++)
-   free(g->adj[i]);
+   for (i = 0; i < g->n; i++){
+    if (g->adj[i] != NULL){
+    node* a = g->adj[i]->next;
+    while(a != NULL){
+      node * b = a->next;
+      free(a);
+      a = b;      
+    }
+    free(g->adj[i]);
+  }
+   }
    free(g->adj);
    free(g);
    }
@@ -201,12 +210,4 @@ vect * init_vect(int n){
   v-> w = 0 ;
   v->path = malloc(n * sizeof(int));
   return v;
-}
-
-int in_list(vect * v, int x){
-  for(int i = 0; i < v->n; i++){
-    if(v->path[i] == x) return 1;
-  }
-
-   return 0;
 }
