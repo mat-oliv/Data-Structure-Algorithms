@@ -48,13 +48,8 @@ int main(){
   int n, m;
   scanf(" %d %d", &n, &m);
 
-
-  int max = 0;
-  int max2 = 0;
-  int pos2 = 0;
-  int pos = 0;
-
   node * nodes = malloc(n * sizeof(node));
+  node * node_sorted = malloc(n * sizeof(node));
   graph * g = init_graph(n);
 
   vect * best_path = init_vect(n);
@@ -65,18 +60,11 @@ int main(){
     nodes[i].id = i;
     scanf(" %d", &w);
     nodes[i].w = w;
-    if (w > max){
-      max2 = max;
-      pos2 = pos;
-      max = w;
-      pos = i;
-    
-    }
-    if (w < max && w > max2){
-      max2 = w;
-      pos2 = i;
-    }
+    node_sorted[i].id = i;
+    node_sorted[i].w = w;
+
   }
+
 
   int u, v;
   for(int i = 0; i < m; i++){
@@ -86,12 +74,19 @@ int main(){
     insert_edge(nodes, g, u, v);
   }
 
-  search(nodes, n, g, nodes[pos], NULL, NULL, best_path);
-  search(nodes, n, g, nodes[pos2], NULL, NULL, best_path);
+  for(int i = 0; i < n; i++){
+    for (int j = i; j < n; j++){
+      if(node_sorted[j].w > node_sorted[i].w){
+        node a = node_sorted[i];
+        node_sorted[i] = node_sorted[j];
+        node_sorted[j] = a;
+      }
+    }
+  }
 
 
   for (int i = 0; i < n; i++){
-    search(nodes, n, g, nodes[i], NULL, NULL, best_path);
+    search(nodes, n, g, node_sorted[i], NULL, NULL, best_path);
   }
 
   printf("%d\n", best_path->w);
@@ -112,60 +107,6 @@ int main(){
   return 0;
 }
 
-void search2(node * nodes, int w, int n, graph * g, node cur_node,vect * to_check, vect * best_path){
-  vect * next_check;
-  next_check = init_vect(n);
-  if(to_check == NULL){
-   node * next_node = g->adj[cur_node.id];
-   while (next_node != NULL){
-    next_check->path[next_check->n] = next_node->id;
-    next_check->n += 1;
-    next_check->w += next_node->w;
-    next_node = next_node->next;
-   }
-  } else {
-    for(int i = 0; i < to_check->n; i++){
-      if(g->adj2[cur_node.id][to_check->path[i]] && cur_node.id != to_check->path[i]){
-        next_check->path[next_check->n] = to_check->path[i];
-        next_check->n += 1;
-        next_check->w += nodes[to_check->path[i]].w;
-      }
-     
-      
-  }
-  }
-
-  w += cur_node.w;
-  if(w > best_path->w){
-    best_path->w = w;
-  }
-
-  if(next_check->n == 0){
-    free(next_check->path);
-    free(next_check);
-    return;
-  }
-
-
-    int i = 0;
-    int max = 0;
-    for (int j = 0; j < next_check->n; j++){
-      if(nodes[next_check->path[j]].w > max){
-        i = j;
-        max = nodes[next_check->path[j]].w;
-      }
-    }
- 
- 
-
-    search2(nodes,w, n, g, nodes[next_check->path[i]], next_check, best_path);
-  
-
-  free(next_check->path);
-  free(next_check);
-
-}
-
 void search(node * nodes, int n, graph * g, node cur_node, vect * cur_path, vect * to_check, vect * best_path){
   vect * next_check;
   next_check = init_vect(n);
@@ -177,6 +118,7 @@ void search(node * nodes, int n, graph * g, node cur_node, vect * cur_path, vect
     next_check->w += next_node->w;
     next_node = next_node->next;
    }
+   if(next_check->w + cur_node.w < best_path->w) return;
   } else {
     for(int i = 0; i < to_check->n; i++){
       if(g->adj2[cur_node.id][to_check->path[i]] && cur_node.id != to_check->path[i]){
@@ -223,8 +165,25 @@ void search(node * nodes, int n, graph * g, node cur_node, vect * cur_path, vect
     return;
 }
 
+
+for(int i = 0; i < next_check->n; i++){
+  for (int j = i; j < next_check->n; j++){
+    if(nodes[next_check->path[j]].w > nodes[next_check->path[i]].w){
+      int a = next_check->path[i];
+      next_check->path[i] = next_check->path[j];
+      next_check->path[j] = a;
+    }
+  }
+}
   for (int i = 0; i < next_check->n; i++){
+    int sum1 = 0;
+   
+    for(int j = i; j < next_check->n;  j++)
+      sum1 += nodes[next_check->path[j]].w;
+
+    if(sum1 + cur_pat->w < best_path->w) break;
     search(nodes, n, g, nodes[next_check->path[i]], cur_pat, next_check, best_path);
+  
   }
 
   free(next_check->path);
