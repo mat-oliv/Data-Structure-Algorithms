@@ -185,6 +185,7 @@ void destroy_graph (graph * g) {
   
 vect * init_vect(int n){
   vect * v = malloc(sizeof(vect));
+  v->n = 0;
   v-> w = 0 ;
   v->path = malloc(n * sizeof(int));
   return v;
