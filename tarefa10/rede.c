@@ -111,6 +111,7 @@ int main(){
   free(node_sorted);
   destroy_graph(g);
   free(nodes);
+  free(priority);
     
   return 0;
 }
