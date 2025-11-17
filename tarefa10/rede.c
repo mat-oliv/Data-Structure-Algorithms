@@ -121,6 +121,9 @@ void search(node * nodes, graph * g, node cur_node, vect * cur_path, vect  * to_
   int check[200];
   next_check.path = check;
 
+  int sum_nodes[200];
+
+
   if(to_check->n == 0){
    node * next_node = g->adj[cur_node.id];
    while (next_node != NULL){ 
@@ -132,6 +135,7 @@ void search(node * nodes, graph * g, node cur_node, vect * cur_path, vect  * to_
 
   insertion_sort(next_check.path, next_check.n, nodes);
 
+
   } else {
     for(int i = 0; i < to_check->n; i++){
       if(g->adj2[cur_node.id][to_check->path[i]] && cur_node.id != to_check->path[i]){ 
@@ -142,6 +146,10 @@ void search(node * nodes, graph * g, node cur_node, vect * cur_path, vect  * to_
      
   }
   }
+
+  sum_nodes[next_check.n - 1] = nodes[next_check.path[next_check.n - 1]].w;
+  for(int i = next_check.n - 2; i >= 0; i--)
+    sum_nodes[i] = nodes[next_check.path[i]].w + sum_nodes[i + 1];   
 
   cur_path->path[cur_path->n] = cur_node.id;
   cur_path->w += cur_node.w;
@@ -164,12 +172,7 @@ void search(node * nodes, graph * g, node cur_node, vect * cur_path, vect  * to_
 
 
   for (int i = 0; i < next_check.n; i++){
-    int sum1 = 0;
-   
-    for(int j = i; j < next_check.n;  j++)
-      sum1 += nodes[next_check.path[j]].w;
-
-    if(sum1 + cur_path->w < best_path->w) break;
+    if(cur_path->w + sum_nodes[i] < best_path->w)  break;
     search(nodes, g, nodes[next_check.path[i]], cur_path, &next_check, best_path);
     cur_path->n -= 1;
     cur_path->w -= nodes[next_check.path[i]].w;
