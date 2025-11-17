@@ -39,6 +39,8 @@ node * add_list( node* list, int w, int id);
 void remove_edge(graph *g, int u, int v);
 int has_edge(graph* g, int u, int v);
 
+void insertion_sort(int *path, int n, node *nodes);
+
 
 void search(node * nodes, graph * g,node cur_node, vect * cur_path, vect * to_check, vect * best_path);
 
@@ -128,15 +130,7 @@ void search(node * nodes, graph * g, node cur_node, vect * cur_path, vect  * to_
     next_node = next_node->next;
    }
 
-   for(int i = 0; i < next_check.n; i++){
-    for (int j = i; j < next_check.n; j++){
-      if(nodes[next_check.path[j]].w > nodes[next_check.path[i]].w){
-        int a = next_check.path[i];
-        next_check.path[i] = next_check.path[j];
-        next_check.path[j] = a;
-      }
-    }
-  }
+  insertion_sort(next_check.path, next_check.n, nodes);
 
   } else {
     for(int i = 0; i < to_check->n; i++){
@@ -250,4 +244,19 @@ int compare(const void *a, const void *b) {
   node *na = (node*)a;
   node *nb = (node*)b;
   return nb->w - na->w;  
+}
+
+void insertion_sort(int *path, int n, node *nodes) {
+  for (int i = 1; i < n; i++) {
+      int v = path[i];
+      int w = nodes[v].w;
+      int j = i - 1;
+
+      while (j >= 0 && nodes[path[j]].w < w) {
+          path[j + 1] = path[j];
+          j--;
+      }
+
+      path[j + 1] = v;
+  }
 }
