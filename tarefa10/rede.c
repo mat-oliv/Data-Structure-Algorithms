@@ -28,6 +28,8 @@ typedef struct {
 
 } vect;
 
+
+
 vect * init_vect(int n);
 
 graph * init_graph(int n);
@@ -38,8 +40,7 @@ void remove_edge(graph *g, int u, int v);
 int has_edge(graph* g, int u, int v);
 
 
-void search(node * nodes, int n, graph * g,node cur_node, vect * cur_path, vect * to_check, vect * best_path);
-void search2(node * nodes, int w, int n, graph * g,node cur_node, vect * to_check, vect * best_path);
+void search(node * nodes, graph * g,node cur_node, vect * cur_path, vect * to_check, vect * best_path);
 
 int compare(const void *a, const void *b); 
 
@@ -49,7 +50,7 @@ int main(){
   scanf(" %d %d", &n, &m);
 
   node * nodes = malloc(n * sizeof(node));
-  node * node_sorted = malloc(n * sizeof(node));
+  node * node_sorted = malloc(n * sizeof(node));  // é nodes só que vai ficar ordenado
   graph * g = init_graph(n);
 
   vect * best_path = init_vect(n);
@@ -77,9 +78,14 @@ int main(){
   qsort(node_sorted, n, sizeof(node), compare);
 
 
-  for (int i = 0; i < n; i++){
+  for (int i = 0; i < n; i++){   // Começa testando os mais influentes como uma espécie de heuristica
     vect * cur_path = init_vect(n);
-    search(nodes, n, g, node_sorted[i], cur_path, NULL, best_path);
+    vect  to_check;
+    to_check.n = 0;
+    to_check.w = 0;
+    int check[200];
+    to_check.path = check;
+    search(nodes, g, node_sorted[i], cur_path, &to_check, best_path);
     free(cur_path->path);
     free(cur_path);
   }
@@ -93,7 +99,6 @@ int main(){
 
   }
 
- // system("leaks rede");
   free(best_path->path);
   free(best_path);
   free(node_sorted);
@@ -103,23 +108,32 @@ int main(){
   return 0;
 }
 
-void search(node * nodes, int n, graph * g, node cur_node, vect * cur_path, vect * to_check, vect * best_path){
-  vect * next_check;
-  next_check = init_vect(n);
-  if(to_check == NULL){
+void search(node * nodes, graph * g, node cur_node, vect * cur_path, vect  * to_check, vect * best_path){
+  // to_check são os nós que o nó anteriormente estava pra checar.
+  // next_check vai armazenar apenas os nós vizinhos de cur_node que pertecem a to_check
+  // isso mantém o clique
+
+  vect  next_check;
+  next_check.n = 0;
+  next_check.w = 0;
+  int check[200];
+  next_check.path = check;
+
+  if(to_check->n == 0){
    node * next_node = g->adj[cur_node.id];
-   while (next_node != NULL){
-    next_check->path[next_check->n] = next_node->id;
-    next_check->n += 1;
-    next_check->w += next_node->w;
+   while (next_node != NULL){ 
+    next_check.path[next_check.n] = next_node->id;
+    next_check.n += 1;
+    next_check.w += next_node->w;
     next_node = next_node->next;
    }
+
   } else {
     for(int i = 0; i < to_check->n; i++){
-      if(g->adj2[cur_node.id][to_check->path[i]] && cur_node.id != to_check->path[i]){
-        next_check->path[next_check->n] = to_check->path[i];
-        next_check->n += 1;
-        next_check->w += nodes[to_check->path[i]].w;
+      if(g->adj2[cur_node.id][to_check->path[i]] && cur_node.id != to_check->path[i]){ 
+        next_check.path[next_check.n] = to_check->path[i];
+        next_check.n += 1;
+        next_check.w += nodes[to_check->path[i]].w;
       }
      
   }
@@ -129,7 +143,7 @@ void search(node * nodes, int n, graph * g, node cur_node, vect * cur_path, vect
   cur_path->w += cur_node.w;
   cur_path->n += 1;
 
-  int w_max = cur_path->w + next_check->w;
+  int w_max = cur_path->w + next_check.w; // Limite máximo teórico para o valor de w de um caminho partindo de cur_node.
 
  
 
@@ -140,38 +154,33 @@ void search(node * nodes, int n, graph * g, node cur_node, vect * cur_path, vect
     }
     best_path->n = cur_path-> n;
   }
-  if(w_max <= best_path->w || next_check->n == 0){
-    free(next_check->path);
-    free(next_check);
-
+  if(w_max <= best_path->w || next_check.n == 0){
     return;
 }
 
 
-for(int i = 0; i < next_check->n; i++){
-  for (int j = i; j < next_check->n; j++){
-    if(nodes[next_check->path[j]].w > nodes[next_check->path[i]].w){
-      int a = next_check->path[i];
-      next_check->path[i] = next_check->path[j];
-      next_check->path[j] = a;
+for(int i = 0; i < next_check.n; i++){
+  for (int j = i; j < next_check.n; j++){
+    if(nodes[next_check.path[j]].w > nodes[next_check.path[i]].w){
+      int a = next_check.path[i];
+      next_check.path[i] = next_check.path[j];
+      next_check.path[j] = a;
     }
   }
 }
 
-  for (int i = 0; i < next_check->n; i++){
+  for (int i = 0; i < next_check.n; i++){
     int sum1 = 0;
    
-    for(int j = i; j < next_check->n;  j++)
-      sum1 += nodes[next_check->path[j]].w;
+    for(int j = i; j < next_check.n;  j++)
+      sum1 += nodes[next_check.path[j]].w;
 
     if(sum1 + cur_path->w < best_path->w) break;
-    search(nodes, n, g, nodes[next_check->path[i]], cur_path, next_check, best_path);
+    search(nodes, g, nodes[next_check.path[i]], cur_path, &next_check, best_path);
     cur_path->n -= 1;
-    cur_path->w -= nodes[next_check->path[i]].w;
+    cur_path->w -= nodes[next_check.path[i]].w;
   }
 
-  free(next_check->path);
-  free(next_check);
 
 }
 
