@@ -42,7 +42,7 @@ int has_edge(graph* g, int u, int v);
 void insertion_sort(int *path, int n, node *nodes);
 
 
-void search(node * nodes, graph * g,node cur_node, vect * cur_path, vect * to_check, vect * best_path);
+void search(int root, int *priority, node * nodes, graph * g,node cur_node, vect * cur_path, vect * to_check, vect * best_path);
 
 int compare(const void *a, const void *b); 
 
@@ -56,6 +56,8 @@ int main(){
   graph * g = init_graph(n);
 
   vect * best_path = init_vect(n);
+
+  int * priority = malloc(n * sizeof(int));
 
 
   int w;
@@ -79,6 +81,9 @@ int main(){
 
   qsort(node_sorted, n, sizeof(node), compare);
 
+  for(int i =0 ;i < n; i ++){
+    priority[node_sorted[i].id] = i;
+  }
 
   for (int i = 0; i < n; i++){   // Começa testando os mais influentes como uma espécie de heuristica
     vect * cur_path = init_vect(n);
@@ -87,7 +92,7 @@ int main(){
     to_check.w = 0;
     int check[200];
     to_check.path = check;
-    search(nodes, g, node_sorted[i], cur_path, &to_check, best_path);
+    search(node_sorted[i].id, priority, nodes, g, node_sorted[i], cur_path, &to_check, best_path);
     free(cur_path->path);
     free(cur_path);
   }
@@ -110,7 +115,7 @@ int main(){
   return 0;
 }
 
-void search(node * nodes, graph * g, node cur_node, vect * cur_path, vect  * to_check, vect * best_path){
+void search(int root, int*priority, node * nodes, graph * g, node cur_node, vect * cur_path, vect  * to_check, vect * best_path){
   // to_check são os nós que o nó anteriormente estava pra checar.
   // next_check vai armazenar apenas os nós vizinhos de cur_node que pertecem a to_check
   // isso mantém o clique
@@ -164,13 +169,15 @@ void search(node * nodes, graph * g, node cur_node, vect * cur_path, vect  * to_
 
 
   for (int i = 0; i < next_check.n; i++){
+    
+    if(priority[next_check.path[i]] < priority[root]) continue;
     int sum1 = 0;
    
     for(int j = i; j < next_check.n;  j++)
       sum1 += nodes[next_check.path[j]].w;
 
     if(sum1 + cur_path->w < best_path->w) break;
-    search(nodes, g, nodes[next_check.path[i]], cur_path, &next_check, best_path);
+    search(root, priority, nodes, g, nodes[next_check.path[i]], cur_path, &next_check, best_path);
     cur_path->n -= 1;
     cur_path->w -= nodes[next_check.path[i]].w;
   }
