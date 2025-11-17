@@ -191,14 +191,13 @@ void search(int root, int *priority, node * nodes, graph * g, node cur_node, vec
 
   for (int i = 0; i < next_check.n; i++){
 
-    if(priority[next_check.path[i]] < priority[root]) continue;
     int sum1 = 0;
    
     for(int j = i; j < next_check.n;  j++)
       sum1 += nodes[next_check.path[j]].w;
 
     if(sum1 + cur_path->w < best_path->w) break;
-  
+    if(priority[next_check.path[i]] < priority[root]) continue;
     search(root, priority, nodes, g, nodes[next_check.path[i]], cur_path, &next_check, best_path);
     cur_path->n -= 1;
     cur_path->w -= nodes[next_check.path[i]].w;
