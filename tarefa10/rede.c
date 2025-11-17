@@ -43,7 +43,7 @@ int has_edge(graph* g, int u, int v);
 void insertion_sort(int *path, int n, node *nodes);
 
 
-void search(int root, int * priority, node * nodes, graph * g,node cur_node, vect * cur_path, vect * to_check, vect * best_path);
+void search( node * nodes, graph * g,node cur_node, vect * cur_path, vect * to_check, vect * best_path);
 
 int compare(const void *a, const void *b); 
 
@@ -59,7 +59,7 @@ int main(){
   vect * best_path = init_vect(n);
 
 
-  int *priority = malloc(n * sizeof(int));
+ // int *priority = malloc(n * sizeof(int));
 
   int w;
   for(int i = 0; i < n; i++){
@@ -92,8 +92,8 @@ int main(){
 
   qsort(node_sorted, n, sizeof(node), compare);
 
-  for(int i =0; i < n; i++)
-    priority[node_sorted[i].id] = i;
+ //for(int i =0; i < n; i++)
+  //  priority[node_sorted[i].id] = i;
 
   for (int i = 0; i < n; i++){   // Começa testando os mais influentes como uma espécie de heuristica
     vect * cur_path = init_vect(n);
@@ -102,7 +102,7 @@ int main(){
     to_check.w = 0;
     int check[200];
     to_check.path = check;
-    search(node_sorted[i].id, priority, nodes, g, node_sorted[i], cur_path, &to_check, best_path);
+    search( nodes, g, node_sorted[i], cur_path, &to_check, best_path);
     free(cur_path->path);
     free(cur_path);
   }
@@ -121,12 +121,12 @@ int main(){
   free(node_sorted);
   destroy_graph(g);
   free(nodes);
-  free(priority);
+  //free(priority);
     
   return 0;
 }
 
-void search(int root, int *priority, node * nodes, graph * g, node cur_node, vect * cur_path, vect  * to_check, vect * best_path){
+void search( node * nodes, graph * g, node cur_node, vect * cur_path, vect  * to_check, vect * best_path){
   // to_check são os nós que o nó anteriormente estava pra checar.
   // next_check vai armazenar apenas os nós vizinhos de cur_node que pertecem a to_check
   // isso mantém o clique
@@ -172,7 +172,7 @@ void search(int root, int *priority, node * nodes, graph * g, node cur_node, vec
   cur_path->w += cur_node.w;
   cur_path->n += 1;
 
-  int w_max = cur_path->w + next_check.w; // Limite máximo teórico para o valor de w de um caminho partindo de cur_node.
+  int w_max = cur_path->w + next_check.w; 
 
 
  
@@ -198,7 +198,7 @@ void search(int root, int *priority, node * nodes, graph * g, node cur_node, vec
 
     if(sum1 + cur_path->w < best_path->w) break;
   //  if(priority[next_check.path[i]] < priority[root]) continue;
-    search(root, priority, nodes, g, nodes[next_check.path[i]], cur_path, &next_check, best_path);
+    search( nodes, g, nodes[next_check.path[i]], cur_path, &next_check, best_path);
     cur_path->n -= 1;
     cur_path->w -= nodes[next_check.path[i]].w;
   }
