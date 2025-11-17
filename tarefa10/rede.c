@@ -128,6 +128,16 @@ void search(node * nodes, graph * g, node cur_node, vect * cur_path, vect  * to_
     next_node = next_node->next;
    }
 
+   for(int i = 0; i < next_check.n; i++){
+    for (int j = i; j < next_check.n; j++){
+      if(nodes[next_check.path[j]].w > nodes[next_check.path[i]].w){
+        int a = next_check.path[i];
+        next_check.path[i] = next_check.path[j];
+        next_check.path[j] = a;
+      }
+    }
+  }
+
   } else {
     for(int i = 0; i < to_check->n; i++){
       if(g->adj2[cur_node.id][to_check->path[i]] && cur_node.id != to_check->path[i]){ 
@@ -158,16 +168,6 @@ void search(node * nodes, graph * g, node cur_node, vect * cur_path, vect  * to_
     return;
 }
 
-
-for(int i = 0; i < next_check.n; i++){
-  for (int j = i; j < next_check.n; j++){
-    if(nodes[next_check.path[j]].w > nodes[next_check.path[i]].w){
-      int a = next_check.path[i];
-      next_check.path[i] = next_check.path[j];
-      next_check.path[j] = a;
-    }
-  }
-}
 
   for (int i = 0; i < next_check.n; i++){
     int sum1 = 0;
