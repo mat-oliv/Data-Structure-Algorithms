@@ -78,9 +78,13 @@ int main(){
 
 
   for (int i = 0; i < n; i++){
-    search(nodes, n, g, node_sorted[i], NULL, NULL, best_path);
+    vect * cur_path = init_vect(n);
+    search(nodes, n, g, node_sorted[i], cur_path, NULL, best_path);
+    free(cur_path->path);
+    free(cur_path);
   }
 
+  printf("%d\n", best_path->w);
   for(int i = 0; i < best_path->n; i++){
     if(i < best_path->n - 1)
       printf("%d ", best_path->path[i]);
@@ -121,38 +125,25 @@ void search(node * nodes, int n, graph * g, node cur_node, vect * cur_path, vect
   }
   }
 
+  cur_path->path[cur_path->n] = cur_node.id;
+  cur_path->w += cur_node.w;
+  cur_path->n += 1;
 
-  vect * cur_pat;
-  cur_pat = init_vect(n);
-
-  if(cur_path != NULL){
-   cur_pat->n = cur_path->n;
-   cur_pat->w = cur_path->w;
-   for(int i =0; i < cur_pat->n; i++){
-    cur_pat->path[i] = cur_path->path[i];
-   }
-  } 
-
-  cur_pat->path[cur_pat->n] = cur_node.id;
-  cur_pat->w += cur_node.w;
-  cur_pat->n += 1;
-
-  int w_max = cur_pat->w + next_check->w;
+  int w_max = cur_path->w + next_check->w;
 
  
 
-  if(cur_pat->w > best_path->w){
-    best_path->w = cur_pat->w;
-    for(int i = 0; i < cur_pat->n; i++){
-      best_path->path[i] = cur_pat->path[i];
+  if(cur_path->w > best_path->w){
+    best_path->w = cur_path->w;
+    for(int i = 0; i < cur_path->n; i++){
+      best_path->path[i] = cur_path->path[i];
     }
-    best_path->n = cur_pat-> n;
+    best_path->n = cur_path-> n;
   }
   if(w_max <= best_path->w || next_check->n == 0){
     free(next_check->path);
     free(next_check);
-    free(cur_pat->path);
-    free(cur_pat);
+
     return;
 }
 
@@ -173,15 +164,14 @@ for(int i = 0; i < next_check->n; i++){
     for(int j = i; j < next_check->n;  j++)
       sum1 += nodes[next_check->path[j]].w;
 
-    if(sum1 + cur_pat->w < best_path->w) break;
-    search(nodes, n, g, nodes[next_check->path[i]], cur_pat, next_check, best_path);
-  
+    if(sum1 + cur_path->w < best_path->w) break;
+    search(nodes, n, g, nodes[next_check->path[i]], cur_path, next_check, best_path);
+    cur_path->n -= 1;
+    cur_path->w -= nodes[next_check->path[i]].w;
   }
 
   free(next_check->path);
   free(next_check);
-  free(cur_pat->path);
-  free(cur_pat);
 
 }
 
