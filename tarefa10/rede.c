@@ -197,7 +197,7 @@ void search(int root, int *priority, node * nodes, graph * g, node cur_node, vec
       sum1 += nodes[next_check.path[j]].w;
 
     if(sum1 + cur_path->w < best_path->w) break;
-    if(priority[next_check.path[i]] < priority[root]) continue;
+  //  if(priority[next_check.path[i]] < priority[root]) continue;
     search(root, priority, nodes, g, nodes[next_check.path[i]], cur_path, &next_check, best_path);
     cur_path->n -= 1;
     cur_path->w -= nodes[next_check.path[i]].w;
