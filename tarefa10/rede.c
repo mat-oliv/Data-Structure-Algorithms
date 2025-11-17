@@ -9,6 +9,7 @@ struct node {
   int id;
   int w;
   node * next;
+  int degree;
 };
 
 
@@ -42,7 +43,7 @@ int has_edge(graph* g, int u, int v);
 void insertion_sort(int *path, int n, node *nodes);
 
 
-void search(node * nodes, graph * g,node cur_node, vect * cur_path, vect * to_check, vect * best_path);
+void search(int root, int * priority, node * nodes, graph * g,node cur_node, vect * cur_path, vect * to_check, vect * best_path);
 
 int compare(const void *a, const void *b); 
 
@@ -57,6 +58,8 @@ int main(){
 
   vect * best_path = init_vect(n);
 
+
+  int *priority = malloc(n * sizeof(int));
 
   int w;
   for(int i = 0; i < n; i++){
@@ -77,8 +80,20 @@ int main(){
     insert_edge(nodes, g, u, v);
   }
 
+  for(int i =0; i < n; i++){
+    node * a = g->adj[i];
+    int d = 0;
+    while (a != NULL){
+      d += 1;
+      a = a->next;
+    }
+    nodes[i].degree = d;
+  }
+
   qsort(node_sorted, n, sizeof(node), compare);
 
+  for(int i =0; i < n; i++)
+    priority[node_sorted[i].id] = i;
 
   for (int i = 0; i < n; i++){   // Começa testando os mais influentes como uma espécie de heuristica
     vect * cur_path = init_vect(n);
@@ -87,7 +102,7 @@ int main(){
     to_check.w = 0;
     int check[200];
     to_check.path = check;
-    search(nodes, g, node_sorted[i], cur_path, &to_check, best_path);
+    search(node_sorted[i].id, priority, nodes, g, node_sorted[i], cur_path, &to_check, best_path);
     free(cur_path->path);
     free(cur_path);
   }
@@ -106,11 +121,12 @@ int main(){
   free(node_sorted);
   destroy_graph(g);
   free(nodes);
+  free(priority);
     
   return 0;
 }
 
-void search(node * nodes, graph * g, node cur_node, vect * cur_path, vect  * to_check, vect * best_path){
+void search(int root, int *priority, node * nodes, graph * g, node cur_node, vect * cur_path, vect  * to_check, vect * best_path){
   // to_check são os nós que o nó anteriormente estava pra checar.
   // next_check vai armazenar apenas os nós vizinhos de cur_node que pertecem a to_check
   // isso mantém o clique
@@ -121,9 +137,6 @@ void search(node * nodes, graph * g, node cur_node, vect * cur_path, vect  * to_
   int check[200];
   next_check.path = check;
 
-  int sum_nodes[200];
-
-
   if(to_check->n == 0){
    node * next_node = g->adj[cur_node.id];
    while (next_node != NULL){ 
@@ -133,7 +146,15 @@ void search(node * nodes, graph * g, node cur_node, vect * cur_path, vect  * to_
     next_node = next_node->next;
    }
 
-  insertion_sort(next_check.path, next_check.n, nodes);
+   for (int i = 0; i < next_check.n; i++){
+    for(int j = i; j < next_check.n; j++){
+      if(nodes[next_check.path[j]].w > nodes[next_check.path[i]].w){
+        int a = next_check.path[i];
+        next_check.path[i] = next_check.path[j];
+        next_check.path[j] = a;
+      }
+    }
+   }
 
 
   } else {
@@ -147,15 +168,12 @@ void search(node * nodes, graph * g, node cur_node, vect * cur_path, vect  * to_
   }
   }
 
-  sum_nodes[next_check.n - 1] = nodes[next_check.path[next_check.n - 1]].w;
-  for(int i = next_check.n - 2; i >= 0; i--)
-    sum_nodes[i] = nodes[next_check.path[i]].w + sum_nodes[i + 1];   
-
   cur_path->path[cur_path->n] = cur_node.id;
   cur_path->w += cur_node.w;
   cur_path->n += 1;
 
   int w_max = cur_path->w + next_check.w; // Limite máximo teórico para o valor de w de um caminho partindo de cur_node.
+
 
  
 
@@ -172,8 +190,16 @@ void search(node * nodes, graph * g, node cur_node, vect * cur_path, vect  * to_
 
 
   for (int i = 0; i < next_check.n; i++){
-    if(cur_path->w + sum_nodes[i] < best_path->w)  break;
-    search(nodes, g, nodes[next_check.path[i]], cur_path, &next_check, best_path);
+
+    if(priority[next_check.path[i]] < priority[root]) continue;
+    int sum1 = 0;
+   
+    for(int j = i; j < next_check.n;  j++)
+      sum1 += nodes[next_check.path[j]].w;
+
+    if(sum1 + cur_path->w < best_path->w) break;
+  
+    search(root, priority, nodes, g, nodes[next_check.path[i]], cur_path, &next_check, best_path);
     cur_path->n -= 1;
     cur_path->w -= nodes[next_check.path[i]].w;
   }
@@ -244,22 +270,8 @@ vect * init_vect(int n){
 }
 
 int compare(const void *a, const void *b) {
-  node *na = (node*)a;
-  node *nb = (node*)b;
-  return nb->w - na->w;  
+  node *aa = (node*)a;
+  node *bb = (node*)b;
+  return (bb->w  * bb->degree) - (aa->w * aa->degree);  
 }
 
-void insertion_sort(int *path, int n, node *nodes) {
-  for (int i = 1; i < n; i++) {
-      int v = path[i];
-      int w = nodes[v].w;
-      int j = i - 1;
-
-      while (j >= 0 && nodes[path[j]].w < w) {
-          path[j + 1] = path[j];
-          j--;
-      }
-
-      path[j + 1] = v;
-  }
-}
