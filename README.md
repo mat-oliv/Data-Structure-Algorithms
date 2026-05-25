@@ -1,6 +1,6 @@
 # Data Structures Exercises — UNICAMP
 
-Repository containing implementations of classic Data Structures and Algorithms studied during the course **MC202 — Data Structures** at the :contentReference[oaicite:0]{index=0}.
+Repository containing implementations of classic Data Structures and Algorithms studied during the course **MC202 — Data Structures** at Unicamp - Universidade Estadual de Campinas.
 
 The projects and exercises were developed in **C language**, focusing on algorithmic thinking, computational efficiency, memory management, and problem-solving through real-world-inspired challenges.
 
