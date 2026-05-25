@@ -1,8 +1,0 @@
-DNA inteiro: TGTATTCCAACGACGA
-DNA inteiro: TGTATTCCAACACGA
-DNA inteiro: TGTATTCCCAACACGA
-DNA inteiro: TGTATTCCCAACCGA
-Trecho 4-6: TT
-Trecho 3-5: AT
-DNA inteiro: TGTATTTCCCAACCGA
-Contagem final: A:4 T:5 C:5 G:2
